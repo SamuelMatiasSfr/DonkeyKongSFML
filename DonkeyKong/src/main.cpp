@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
 	sf::Texture texturaMario;
 	texturaMario.loadFromFile("imgs/mario.png");
 	sf::IntRect retanguloMario(32, 35, 12, 16);
-	Entidade::Personagem::Mario::Mario mario(texturaMario, 100, 500, retanguloMario, sf::Vector2f(5, 5), 5, 5);
+	Entidade::Personagem::Mario::Mario mario(texturaMario, 100, 200, retanguloMario, sf::Vector2f(5, 5), 5, 5);
 
 	sf::Texture texturaBarril;
 	texturaBarril.loadFromFile("imgs/barril.png");
@@ -31,7 +31,12 @@ int main(int argc, char **argv) {
 	sf::Texture texturaKong;
 	texturaKong.loadFromFile("imgs/kong.png");
 	sf::IntRect retanguloKong(99, 0, 40, 32);
-	Entidade::Personagem::Kong::Kong kong(texturaKong, 0, 300, retanguloKong, sf::Vector2f(2, 2), 5, 0);
+	Entidade::Personagem::Kong::Kong kong(texturaKong, 0, 200, retanguloKong, sf::Vector2f(2, 2), 5, 0);
+
+	sf::RectangleShape plataforma;
+	plataforma.setSize(sf::Vector2f(800, 100));
+	plataforma.setFillColor(sf::Color::Magenta);
+	plataforma.setPosition(0, 500);
 
 	//loop do jogo
 	while (window.isOpen()) {
@@ -54,6 +59,7 @@ int main(int argc, char **argv) {
 		window.draw(barril.getSprite());
 		window.draw(mario.getSprite());
 		window.draw(kong.getSprite());
+		window.draw(plataforma);
 
 		window.display();
 	}

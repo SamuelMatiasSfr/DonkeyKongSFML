@@ -23,8 +23,8 @@ namespace Entidade{
 					posicaoX = posicaoX + velocidadeX;
 
 					if(posicaoX >= (300 - corpo.getGlobalBounds().width/2)){
-						velocidadeY = velocidadeX*(-1);
-					}else if(posicaoX <=  0){
+						velocidadeX = velocidadeX*(-1);
+					}else if(posicaoX <= 0){
 						velocidadeX = velocidadeX*(-1);
 					}
 

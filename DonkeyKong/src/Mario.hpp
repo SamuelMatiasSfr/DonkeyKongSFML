@@ -20,18 +20,26 @@ namespace Entidade{
 
 				}
 
+				void sofrerGravidade(float gravidade, float tempo){
+					velocidadeY += gravidade*tempo;
+					posicaoY += velocidadeY;
+				}
+
 				void mover() override{
 					if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-						this->corpo.move(-velocidadeX, 0.f);
+						posicaoX -= velocidadeX;
 					}
 					if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
-						this->corpo.move(velocidadeX, 0.f);
+						posicaoX += velocidadeX;
 					}
 					if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+						velocidadeY = 12;
+						posicaoY -= velocidadeY;
 
-
-						this->corpo.move(0.f, -velocidadeY);
 					}
+
+					sofrerGravidade(0.5f, 1.5f);
+					corpo.setPosition(posicaoX, posicaoY);
 				}
 			};
 
