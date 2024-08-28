@@ -20,8 +20,8 @@ namespace Entidade{
 				return velocidadeY;
 			}
 
-			Personagem(sf::Texture textura, int posicaoX, int posicaoY, int velocidadeX, int velocidadeY):
-				Entidade(textura, posicaoX, posicaoY)
+			Personagem(sf::Texture textura, int posicaoX, int posicaoY, sf::IntRect retangulo, sf::Vector2f escala, int velocidadeX, int velocidadeY):
+				Entidade(textura, posicaoX, posicaoY, retangulo, escala)
 			{
 				this->velocidadeX = velocidadeX;
 				this->velocidadeY = velocidadeY;

@@ -1,3 +1,6 @@
+//SÓ EXISTE 4 BARRIS POR VEZ, QUANDO UM CAI LÁ EMBAIXO, ELE VOLTA PARA CIMA
+//QUANDO PASSA NA PRIMEIRA ESCADA MAIS PERTO DO KONG, GERA UM NOVO BARRIL
+
 #pragma once
 
 #include "Personagem.hpp"
@@ -13,8 +16,8 @@ namespace Entidade{
 
 
 			public:
-				Barril(sf::Texture textura, int posicaoX, int posicaoY, int velocidadeX, int velocidadeY):
-					Personagem(textura, posicaoX, posicaoY, velocidadeX, velocidadeY)
+				Barril(sf::Texture textura, int posicaoX, int posicaoY, sf::IntRect retangulo, sf::Vector2f escala, int velocidadeX, int velocidadeY):
+					Personagem(textura, posicaoX, posicaoY, retangulo, escala, velocidadeX, velocidadeY)
 				{
 
 				}
@@ -23,15 +26,13 @@ namespace Entidade{
 					posicaoX = posicaoX + velocidadeX;
 					posicaoY = posicaoY + velocidadeY;
 
-					corpo.rotate(4.f);
-
-					if(posicaoX >= 1000 - 0.1f*2){
+					if(posicaoX >= (800 - corpo.getGlobalBounds().width/2)){
 						velocidadeY = velocidadeX*(-1);
 					}else if(posicaoX <=  0){
 						velocidadeX = velocidadeX*(-1);
 					}
 
-					if(posicaoY >= 600 - 0.1f*2){
+					if(posicaoY >= (600 - corpo.getGlobalBounds().width/2)){
 						velocidadeY = velocidadeY*(-1);
 					}else if(posicaoY <= 0){
 						velocidadeY = velocidadeY*(-1);

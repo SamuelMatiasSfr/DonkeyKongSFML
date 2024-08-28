@@ -29,7 +29,7 @@ namespace Entidade{
 			return posicaoY;
 		}
 
-		Entidade(sf::Texture textura, int posicaoX, int posicaoY){
+		Entidade(sf::Texture textura, int posicaoX, int posicaoY, sf::IntRect retangulo, sf::Vector2f escala){
 			this->textura = textura;
 			this->posicaoX = posicaoX;
 			this->posicaoY = posicaoY;
@@ -38,6 +38,8 @@ namespace Entidade{
 			 * ou se recebo textura carregada
 			 */
 			corpo.setTexture(this->textura);
+			corpo.setTextureRect(retangulo);
+			corpo.setScale(escala.x, escala.y);
 			corpo.setPosition(posicaoX, posicaoY);
 			corpo.setOrigin(corpo.getLocalBounds().width / 2.,
 						corpo.getLocalBounds().height / 2.);

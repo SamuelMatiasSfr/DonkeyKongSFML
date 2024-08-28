@@ -13,9 +13,10 @@ namespace Entidade{
 
 
 			public:
-				Mario(sf::Texture textura, int posicaoX, int posicaoY, int velocidadeX, int velocidadeY):
-					Personagem(textura, posicaoX, posicaoY, velocidadeX, velocidadeY)
+				Mario(sf::Texture textura, int posicaoX, int posicaoY, sf::IntRect retangulo, sf::Vector2f escala, int velocidadeX, int velocidadeY):
+					Personagem(textura, posicaoX, posicaoY, retangulo, escala, velocidadeX, velocidadeY)
 				{
+
 
 				}
 

@@ -2,6 +2,7 @@
 
 #include "Mario.hpp"
 #include "Barril.hpp"
+#include "Kong.hpp"
 
 #include <cstdlib>
 #include <ctime>
@@ -18,12 +19,19 @@ int main(int argc, char **argv) {
 	window.setFramerateLimit(30.f);
 
 	sf::Texture texturaMario;
-	texturaMario.loadFromFile("imgs/mario/frame0.png");
-	Entidade::Personagem::Mario::Mario mario(texturaMario, 100, 500, 5, 5);
+	texturaMario.loadFromFile("imgs/mario.png");
+	sf::IntRect retanguloMario(32, 35, 12, 16);
+	Entidade::Personagem::Mario::Mario mario(texturaMario, 100, 500, retanguloMario, sf::Vector2f(5, 5), 5, 5);
 
 	sf::Texture texturaBarril;
-	texturaBarril.loadFromFile("imgs/pokemon.png");
-	Entidade::Personagem::Barril::Barril barril(texturaBarril, 0, 0, 5, 5);
+	texturaBarril.loadFromFile("imgs/barril.png");
+	sf::IntRect retanguloBarril(25, 3, 12, 10);
+	Entidade::Personagem::Barril::Barril barril(texturaBarril, 0, 0, retanguloBarril, sf::Vector2f(5, 5), 5, 5);
+
+	sf::Texture texturaKong;
+	texturaKong.loadFromFile("imgs/kong.png");
+	sf::IntRect retanguloKong(99, 0, 40, 32);
+	Entidade::Personagem::Kong::Kong kong(texturaKong, 0, 300, retanguloKong, sf::Vector2f(2, 2), 5, 0);
 
 	//loop do jogo
 	while (window.isOpen()) {
@@ -38,12 +46,14 @@ int main(int argc, char **argv) {
 		//atualiza mundo
 		barril.mover();
 		mario.mover();
+		kong.mover();
 
 		//desenha mundo
 		window.clear();
 
 		window.draw(barril.getSprite());
 		window.draw(mario.getSprite());
+		window.draw(kong.getSprite());
 
 		window.display();
 	}
