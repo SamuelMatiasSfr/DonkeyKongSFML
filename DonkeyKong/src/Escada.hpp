@@ -10,7 +10,7 @@ class Escada{
 	std::vector<sf::RectangleShape> degraus;
 
 public:
-	Escada(int numDegrau, int posX, int posY){
+	void defineEscada(int numDegrau, int posX, int posY){
 
 		this->numero_degrau = numDegrau;
 		this->positionX = posX;
@@ -21,7 +21,7 @@ public:
 		for (int i = 0; i < numDegrau; ++i) {
 			sf::RectangleShape plataforma;
 			plataforma.setSize(sf::Vector2f(50, 10));
-			plataforma.setFillColor(sf::Color::Magenta);
+			plataforma.setFillColor(sf::Color (102, 35, 130));
 			plataforma.setPosition(posX, posY + incrementa_pixels * i);
 
 			degraus.push_back(plataforma);
@@ -33,6 +33,11 @@ public:
         for (auto& degrau : degraus) {
             window.draw(degrau);
         }
+    }
+
+    void free(){
+        degraus.clear();
+        degraus.shrink_to_fit();
     }
 
 };
