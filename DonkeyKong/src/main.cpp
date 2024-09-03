@@ -20,8 +20,7 @@ void verificaColisao(Entidade::Personagem::Mario::Mario& mario, const sf::Sprite
         float tetoCentroY = tetoBounds.top + tetoBounds.height / 2;
 
         if (marioCentroY < tetoCentroY) {
-            mario.getSprite().setPosition(mario.getPosicaoX(), teto.getPosition().y - marioBounds.height);
-            mario.setVelocidade(mario.getVelocidadeX(), 0); // Zera a velocidade Y
+            
             mario.setNoChao(true); // Assume que o Mario está no chão após a colisão com o teto
             mario.setLimiteInferior(teto.getPosition().y - 20);
         }
