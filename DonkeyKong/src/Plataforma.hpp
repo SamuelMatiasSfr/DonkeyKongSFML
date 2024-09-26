@@ -21,37 +21,36 @@ public:
 		estrutura.setTexture(texturaPlataforma);
 	}
 
-	void definePlataforma(bool plataformaRegressa, int inclina, int qtd, int posX, int posY){
+	void definePlataforma(bool plataformaRegressa, int inclina, int qtd, int posX, int posY) {
+	    this->grau_inclinacao = inclina;
+	    this->quantidade_plataformas = qtd;
+	    this->positionX = posX;
+	    this->positionY = posY;
+	    int aux = (plataformaRegressa) ? -1 : 1;
 
-		this->grau_inclinacao = inclina;
-		this->quantidade_plataformas = qtd;
-		this->positionX = posX;
-		this->positionY = posY;
-		int aux = 0;
-
-		if(plataformaRegressa == true){
-			aux = -1;
-		}else{
-			aux = 1;
-		}
-
-
-		for (int i = 0; i < qtd; ++i) {
-			estrutura.setPosition(posX + 78 * aux * i , posY + grau_inclinacao * i);
-			armazenaPlataforma.push_back(estrutura);
-		}
-
+	    for (int i = 0; i < qtd; ++i) {
+	        sf::Sprite plataformaAtual = estrutura;  // Cria uma nova instância de sf::Sprite
+	        plataformaAtual.setPosition(posX + 78 * aux * i, posY + grau_inclinacao * i);
+	        armazenaPlataforma.push_back(plataformaAtual);  // Armazena a nova plataforma no vetor
+	    }
 	}
 
-    void draw(sf::RenderWindow& window) {
-        for (auto& estruturas : armazenaPlataforma ) {
+    void draw(sf::RenderWindow &window) {
+        for (auto &estruturas : armazenaPlataforma ) {
             window.draw(estruturas);
         }
     }
 
     void free(){
-        armazenaPlataforma.clear();
-        armazenaPlataforma.shrink_to_fit();
+    	armazenaPlataforma.clear();
+    	armazenaPlataforma.shrink_to_fit();
     }
 
+    sf::Sprite getSprite(){
+    	return estrutura;
+    }
+
+    std::vector<sf::Sprite>& getSprites() {
+        return armazenaPlataforma;
+    }
 };
