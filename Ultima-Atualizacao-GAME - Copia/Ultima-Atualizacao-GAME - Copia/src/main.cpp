@@ -47,25 +47,16 @@ void colisaoMarioEscada(Entidade::Personagem::Mario::Mario &mario, Escada escada
 
 	vector<sf::RectangleShape> degraus = escada.getDegraus();
 
-	sf::Vector2f posDegrauFront = sf::Vector2f(degraus.front().getPosition().x,
-			degraus.front().getPosition().y - degraus.front().getGlobalBounds().height);
-
-	sf::Vector2f posDegrauBack = sf::Vector2f(degraus.back().getPosition().x,
-			degraus.back().getPosition().y);
-
-	//float centro = calcularCentro(degraus.back());;
-
 	int quantDegraus = degraus.size();
 	for(int i=0; i<quantDegraus; i++){
 		if (spriteMario.getGlobalBounds().intersects(degraus.at(i).getGlobalBounds())){
 			podeSubir = true;
 			podeDescer = true;
 
-			if((spriteMario.getGlobalBounds().intersects(degraus.back().getGlobalBounds()))
-					&& (mario.getPosicaoY() > posDegrauBack.y)){
+			if((i == quantDegraus-1)&& (mario.getPosicaoY() > degraus.at(i).getPosition().y)){
 				podeSubir = true;
 				podeDescer = false;
-			}else if((mario.getPosicaoY() < posDegrauFront.y)){
+			}else if((i == 0) && (mario.getPosicaoY() < degraus.at(i).getPosition().y)){
 				podeSubir = false;
 				podeDescer = true;
 			}
