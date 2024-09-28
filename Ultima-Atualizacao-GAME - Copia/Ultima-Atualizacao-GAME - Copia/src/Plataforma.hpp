@@ -7,10 +7,10 @@ class Plataforma{
 	sf::Texture texturaPlataforma;
 	sf::Sprite estrutura;
 	std::vector<sf::Sprite> armazenaPlataforma;
-	int grau_inclinacao = 0;
-	int quantidade_plataformas = 0;
-	int positionX = 0;
-	int positionY = 0;
+	int grau_inclinacao;
+	int quantidade_plataformas;
+	int positionX;
+	int positionY;
 
 public:
 
@@ -35,6 +35,10 @@ public:
 	    }
 	}
 
+	int getPosY(){
+		return positionY;
+	}
+
     void draw(sf::RenderWindow &window) {
         for (auto &estruturas : armazenaPlataforma ) {
             window.draw(estruturas);
@@ -50,7 +54,7 @@ public:
     	return estrutura;
     }
 
-    std::vector<sf::Sprite>& getSprites() {
+    std::vector<sf::Sprite> getSprites() {
         return armazenaPlataforma;
     }
 };

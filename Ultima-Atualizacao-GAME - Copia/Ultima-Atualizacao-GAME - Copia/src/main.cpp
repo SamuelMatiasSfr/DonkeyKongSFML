@@ -10,59 +10,68 @@
 
 using namespace std;
 
-void verificaColisaoTeto(Entidade::Personagem::Mario::Mario &mario, const sf::Sprite &teto) {
-	sf::FloatRect marioBounds = mario.getSprite().getGlobalBounds();
-	sf::FloatRect tetoBounds = teto.getGlobalBounds();
-
-	if (marioBounds.intersects(tetoBounds)) {
-
-		if (marioBounds.top + marioBounds.height / 2 < tetoBounds.top + tetoBounds.height / 2) {
-			mario.setNoChao(true);
-			mario.setLimiteInferior(teto.getPosition().y - mario.getSprite().getGlobalBounds().height);
-		}
-	}
-	else {
-		mario.setLimiteInferior(770);
-	}
+float calcularCentro(sf::RectangleShape sprite) {
+	float centro = sprite.getPosition().x + (sprite.getGlobalBounds().width/2);
+	return centro;
 }
 
-void colisaoBarrilPlataforma(Entidade::Personagem::Barril::Barril &barril, const sf::Sprite& plataforma){
-	if(barril.getSprite().getGlobalBounds().intersects(plataforma.getGlobalBounds())){
-		int ajusteY = plataforma.getPosition().y - plataforma.getGlobalBounds().height;
-		barril.setPosicaoY(ajusteY);
-	}else{
-		barril.setPosicaoY(5);
-	}
+void colisaoMarioTeto(Entidade::Personagem::Mario::Mario &mario, Plataforma &teto){
+    std::vector<sf::Sprite> plataformas = teto.getSprites();
+
+    sf::Sprite spriteMario = mario.getSprite();
+
+    int posTetoY = 0;
+
+    int ajusteY = mario.getPosicaoY();
+
+    for (auto &plataforma : plataformas) {
+    	posTetoY = plataforma.getPosition().y - plataforma.getGlobalBounds().height;
+        if (spriteMario.getGlobalBounds().intersects(plataforma.getGlobalBounds())){
+            ajusteY = posTetoY;
+            break;
+        }
+    }
+
+    if(!(mario.getApertouDown()) && !(mario.getApertouUp())){
+    	mario.setPosicaoY(ajusteY);
+    	mario.setLimiteInferior(ajusteY);
+    }
+
 }
 
-void colisaoMarioEscada(Entidade::Personagem::Mario::Mario &mario, Escada &escada, sf::Sprite &teto){
+void colisaoMarioEscada(Entidade::Personagem::Mario::Mario &mario, Escada escada){
 	bool podeSubir = mario.getPodeSubir();
 	bool podeDescer = mario.getPodeDescer();
 
+	sf::Sprite spriteMario = mario.getSprite();
+
 	vector<sf::RectangleShape> degraus = escada.getDegraus();
 
-	//int ajusteY = (degraus.front().getPosition().y - degraus.front().getGlobalBounds().height - (teto.getGlobalBounds().height*2));
+	sf::Vector2f posDegrauFront = sf::Vector2f(degraus.front().getPosition().x,
+			degraus.front().getPosition().y - degraus.front().getGlobalBounds().height);
 
-	float tamanhoEscadaX = (degraus.front().getPosition().x + degraus.front().getGlobalBounds().width);
-	float tamanhoEscadaY = (degraus.front().getPosition().y - degraus.front().getGlobalBounds().height);
-	sf::Vector2f tamanhoEscada = sf::Vector2f(tamanhoEscadaX, tamanhoEscadaY);
+	sf::Vector2f posDegrauBack = sf::Vector2f(degraus.back().getPosition().x,
+			degraus.back().getPosition().y);
 
-	if(mario.getPosicaoY() >= 790 - teto.getGlobalBounds().height){
-		podeDescer = false;
+	//float centro = calcularCentro(degraus.back());;
+
+	int quantDegraus = degraus.size();
+	for(int i=0; i<quantDegraus; i++){
+		if (spriteMario.getGlobalBounds().intersects(degraus.at(i).getGlobalBounds())){
+			podeSubir = true;
+			podeDescer = true;
+
+			if((spriteMario.getGlobalBounds().intersects(degraus.back().getGlobalBounds()))
+					&& (mario.getPosicaoY() > posDegrauBack.y)){
+				podeSubir = true;
+				podeDescer = false;
+			}else if((mario.getPosicaoY() < posDegrauFront.y)){
+				podeSubir = false;
+				podeDescer = true;
+			}
+		}
 	}
 
-	for (int i = 0; i < degraus.size(); i++) {
-	    if (mario.getSprite().getGlobalBounds().intersects(degraus.at(i).getGlobalBounds())){
-	    	if(mario.getPosicaoY() >= 790 - teto.getGlobalBounds().height){
-	    		podeSubir = true;
-	    	}else if((mario.getPosicaoY() >= tamanhoEscada.y) && (mario.getPosicaoY() <= degraus.back().getPosition().y)
-	    			&& (mario.getPosicaoX() >= degraus.front().getPosition().x) && (mario.getPosicaoX() <= tamanhoEscada.x)){
-	    		podeSubir = true;
-	    		podeDescer = true;
-	    	}
-	        break;
-	    }
-	}
 	mario.setPodeSubir(podeSubir);
 	mario.setPodeDescer(podeDescer);
 }
@@ -80,7 +89,7 @@ int main(int argc, char **argv) {
         std::cerr << "Erro ao carregar textura de 'imgs/mario.png'" << std::endl;
         return EXIT_FAILURE;
     }
-    sf::IntRect retanguloMario(32, 35, 12, 16);
+    sf::IntRect retanguloMario(32, 35, 11, 14);
     Entidade::Personagem::Mario::Mario mario(texturaMario, 50, 770, retanguloMario, sf::Vector2f(3.6, 3), 5, 0);
 
 
@@ -105,15 +114,15 @@ int main(int argc, char **argv) {
     Entidade::Personagem::Kong::Kong kong(texturaKong, 41, 40, retanguloKong, sf::Vector2f(2, 2), 5, 0);
 
 	Escada escadalateral[9];
-	escadalateral[0].defineEscada(7, 550, 210);
-	escadalateral[1].defineEscada(9, 200, 70);
-	escadalateral[2].defineEscada(8, 340, 210);
-	escadalateral[3].defineEscada(8, 500, 700);
-	escadalateral[4].defineEscada(9, 250, 700);
-	escadalateral[5].defineEscada(7, 350, 580);
-	escadalateral[6].defineEscada(7, 200, 460);
-	escadalateral[7].defineEscada(7, 500, 470);
-	escadalateral[8].defineEscada(6, 300, 340);
+	escadalateral[0].defineEscada(9, 200, 70);
+	escadalateral[1].defineEscada(7, 340, 210);
+	escadalateral[2].defineEscada(7, 550, 210);
+	escadalateral[3].defineEscada(7, 300, 340);
+	escadalateral[4].defineEscada(7, 200, 460);
+	escadalateral[5].defineEscada(6, 500, 470);
+	escadalateral[6].defineEscada(6, 350, 580);
+	escadalateral[7].defineEscada(6, 250, 700);
+	escadalateral[8].defineEscada(6, 500, 700);
 
 	Plataforma teto[7];
 	teto[0].definePlataforma( false, 0, 4, 0, 50);
@@ -150,25 +159,21 @@ int main(int argc, char **argv) {
 		//desenha mundo
 		window.clear();
 
-		for(int i=0; i<barris.size(); i++){
-			for(int j=0; j<7; j++){
-				std::vector<sf::Sprite>&plataformas = teto[j].getSprites();
-				for(auto &plataforma : plataformas){
-					colisaoBarrilPlataforma(barris.at(i), plataforma);
-				}
-			}
-		}
-
+		/*
 		for (int i = 0; i < 7; ++i) {
 		    std::vector<sf::Sprite> plataformas = teto[i].getSprites();
 		    for (auto &plataforma : plataformas) {
-		        verificaColisaoTeto(mario, plataforma);
+		        colisaoMarioTeto(mario, plataforma);
 		    }
-		}
+		}*/
 
 		for(int i=0; i<9; i++){
-			colisaoMarioEscada(mario, escadalateral[i], spriteTeto);
+			colisaoMarioEscada(mario, escadalateral[i]);
 		}
+
+		for (int i = 0; i < 7; ++i) {
+							colisaoMarioTeto(mario, teto[i]);
+						}
 
 
 		if (!colidiuComPlataforma) {

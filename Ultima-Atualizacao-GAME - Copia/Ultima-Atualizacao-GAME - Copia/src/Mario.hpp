@@ -14,7 +14,9 @@ namespace Entidade {
                 bool podeMovimentarLeft;
                 bool podeSubir;
                 bool podeDescer;
-                //bool sobeEscada;
+                bool apertouUp;
+                bool apertouDown;
+                bool podeAjustarPosY;
                 bool noChao;
                 float tempoPulo;
                 const int duracaoPulo;
@@ -31,6 +33,9 @@ namespace Entidade {
                 	podeDescer = false;
                 	podeMovimentarDireita = true;
                 	podeMovimentarLeft = true;
+                	podeAjustarPosY = true;
+                	apertouUp = false;
+                	apertouDown = false;
                 }
 
 
@@ -90,13 +95,15 @@ namespace Entidade {
                         posicaoX += velocidadeX;
                 	}
                 	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) && (podeSubir)) {
+                		apertouUp = true;
                 		velocidadeY = -5;
                 		posicaoY += velocidadeY;
-                	}
+                	}else apertouUp = false;
                 	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) && (podeDescer)) {
+                		apertouDown = true;
                 		velocidadeY = 5;
                 		posicaoY += velocidadeY;
-                	}
+                	}else apertouDown = false;
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
                         pular();
                     }
@@ -131,6 +138,26 @@ namespace Entidade {
                 bool getPodeDescer(){
                                 	return podeDescer;
                                 }
+
+                void setPodeAjustarPosY(bool pode){
+                	if(pode){
+                							podeAjustarPosY = true;
+                						}else{
+                							podeAjustarPosY = false;
+                						}
+                }
+
+                bool getPodeAjustarPosY(){
+                    return podeAjustarPosY;
+                }
+
+                bool getApertouDown(){
+                                    return apertouDown;
+                                }
+
+                bool getApertouUp(){
+                                                    return apertouUp;
+                                                }
 
                 /*
                 void setVelocidade(int x, int y){

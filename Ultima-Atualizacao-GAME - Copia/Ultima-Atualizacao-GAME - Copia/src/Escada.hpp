@@ -27,6 +27,14 @@ public:
 	    }
 	}
 
+	int getPosX(){
+		return positionX;
+	}
+
+	int getPosY(){
+		return positionY;
+	}
+
 
     void draw(sf::RenderWindow& window) {
         for (auto& degrau : degraus) {
