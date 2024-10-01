@@ -18,7 +18,6 @@ public:
 	Mapa(sf::VideoMode tamJan);
 	Mapa(sf::VideoMode tamJan, sf::Sprite fundo);
 	Mapa(sf::Texture texturaFundo, sf::RenderWindow &janela);
-
 	~Mapa();
 
 	sf::RenderWindow &getWindow();

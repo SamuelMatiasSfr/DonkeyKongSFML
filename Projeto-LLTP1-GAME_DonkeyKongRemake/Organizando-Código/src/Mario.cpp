@@ -7,24 +7,6 @@ Mario::Mario(sf::Texture textura, int posX, int posY, sf::IntRect retangulo, sf:
 		noAr = false;
 }
 
-void Mario::permiteMovimento(Mapa &map){
-	if(corpo.getPosition().x >= (map.getTamanhoJanela().width - 1) ){
-		podeAndar = false;
-		setPosition(corpo.getPosition().x - 2,corpo.getPosition().y );
-	}else if(corpo.getPosition().x <= (1) ){
-		podeAndar = false;
-		setPosition(corpo.getPosition().x + 2,corpo.getPosition().y );
-	}else if(corpo.getPosition().y >= (map.getTamanhoJanela().height -1) ){
-		podeAndar = false;
-		setPosition(corpo.getPosition().x, map.getTamanhoJanela().height - 20 );
-	}else if(corpo.getPosition().y <= (1) ){
-		podeAndar = false;
-		setPosition(corpo.getPosition().x, corpo.getPosition().y + 2);
-	}else{
-		podeAndar = true;
-	}
-}
-
 void Mario::setEmEscada(bool estaNaEscada){
 	this->emEscada = estaNaEscada;
 }
@@ -55,8 +37,6 @@ void Mario::movimentoTeclas(){
 	}
 	if((sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) && (podeAndar) && (!noAr)){
 		pular();
-	}else if (!emEscada && noAr){
-		sofreGravidade();
 	}
 
 }
@@ -67,7 +47,7 @@ void Mario::setNoAr(bool estaNoAr){
 
 void Mario::pular(){
 	if(!noAr){
-		velocidadeY = -2;
+		velocidadeY = -4;
 		posicaoY += velocidadeY;
 		setPosition(posicaoX, posicaoY);
 		noAr = true;

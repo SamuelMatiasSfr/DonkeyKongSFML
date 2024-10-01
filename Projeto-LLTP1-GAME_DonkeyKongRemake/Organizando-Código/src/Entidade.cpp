@@ -32,7 +32,7 @@ void Entidade::setSprite(sf::Texture texture[]) {
     }
 }
 
-void Entidade::setSprite(const std::vector<sf::Texture>& texture) {
+void Entidade::setSprite(const std::vector<sf::Texture> &texture) {
     this->textura = texture;
 }
 
@@ -44,9 +44,8 @@ Entidade::~Entidade() {
     std::cerr << "Entidade excluída!" << std::endl;
 }
 
-void Entidade::setSprite(sf::Texture texture){
-	textura.push_back(texture);
-	corpo.setTexture(textura.back());
+void Entidade::setSprite(sf::Texture &texture){
+	corpo.setTexture(texture);
 }
 
 void Entidade::animaEntidade() {

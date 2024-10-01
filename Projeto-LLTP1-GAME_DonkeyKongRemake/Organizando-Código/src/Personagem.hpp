@@ -2,14 +2,16 @@
 #define PERSONAGEM_HPP_
 
 #include "Entidade.hpp"
+#include "Mapa.hpp"
 
 class Personagem : public Entidade{
 protected:
 
 	float velocidadeX;
 	float velocidadeY;
-	const float deltaTime = 0.5;
-	const float gravidade = 0.03;
+	const float deltaTime = 0.5 ;
+	const float gravidade = 0.3;
+	bool podeAndar;
 
 public:
 
@@ -20,6 +22,10 @@ public:
 	void sofreGravidade();
 	void atualizaMovimento();
 	void setVelocidade(float velX, float velY);
+	void permiteMovimento(Mapa &map);
+	bool getPodeAndar();
+
+
 
 };
 

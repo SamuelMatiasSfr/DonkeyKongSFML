@@ -38,39 +38,53 @@ Jogo::Jogo() {
     Mario mario(texturaMarioVector.back(), 300, 300, sf::IntRect(0, 0, 60, 60), sf::Vector2f(1.0f, 1.0f), 0, 0);
 
 
-    Escada escada[9];
-	escada[0].defineEscada(7, 550, 210);
-	escada[1].defineEscada(9, 200, 70);
-	escada[2].defineEscada(8, 340, 210);
-	escada[3].defineEscada(8, 500, 700);
-	escada[4].defineEscada(9, 250, 700);
-	escada[5].defineEscada(7, 350, 580);
-	escada[6].defineEscada(7, 200, 460);
+    Escada escada[11];
+	escada[0].defineEscada(13, 650, 230);
+	escada[1].defineEscada(11, 200, 110);
+	escada[2].defineEscada(8, 440, 230);
+	escada[3].defineEscada(9, 500, 670);
+	escada[4].defineEscada(12, 880, 385);
+	escada[5].defineEscada(10, 20, 530);
+	escada[6].defineEscada(7, 600, 385);
 	escada[7].defineEscada(7, 500, 470);
-	escada[8].defineEscada(6, 300, 340);
+	escada[8].defineEscada(10, 300, 660);
+	escada[9].defineEscada(10, 360, 540);
+	escada[10].defineEscada(10, 600, 540);
 
 	Plataforma plataforma[7];
 	plataforma[0].definePlataforma( false, 0, 14, 0, 110);
-	plataforma[1].definePlataforma( false, 0, 18, 0, 230);
-	plataforma[2].definePlataforma( true, 2, 19, 1000, 310);
-	plataforma[3].definePlataforma( false, 2, 19, 0, 430);
-	plataforma[4].definePlataforma( true, 1, 19, 1000, 550);
-	plataforma[5].definePlataforma( false, 1, 19, 0, 670);
+	plataforma[1].definePlataforma( false, 0, 22, 0, 230);
+	plataforma[2].definePlataforma( true, 1, 19, 1000, 370);
+	plataforma[3].definePlataforma( false, 0, 4, 0, 530);
+	plataforma[4].definePlataforma( true, 1, 21, 1000, 520);
+	plataforma[5].definePlataforma( false, 1, 21, 0, 650);
 	plataforma[6].definePlataforma( false, 0, 42, 0, 780);
 
 	Colisoes colisao;
 
+	sf::Texture texturaBarril[2];
+	if (!texturaBarril[0].loadFromFile("imagens/barril.png", sf::IntRect(25, 3, 11, 10))) {
+		std::cerr << "Erro ao carregar ícone" << std::endl;
+	}
+	if (!texturaBarril[1].loadFromFile("imagens/barril.png", sf::IntRect(25, 21, 12, 13) )) {
+		std::cerr << "Erro ao carregar ícone" << std::endl;
+	}
 
+	std::vector<sf::Texture> texturaBarrilVector;
+	texturaBarrilVector.push_back(texturaBarril[0]);
+	texturaBarrilVector.push_back(texturaBarril[1]);
+
+	Personagem barril(texturaBarrilVector.back(), 200, 200, sf::IntRect(0, 0, 12, 13), sf::Vector2f(2.0f, 2.0f), -2, 0);
+	barril.getSprite().setTexture(*texturaBarril);
 
     sf::Event evento;
+
     while (mapaJogo.getWindow().isOpen()) {
     	while (mapaJogo.getWindow().pollEvent(evento)) {
     		if (evento.type == sf::Event::Closed) {
     			mapaJogo.getWindow().close();
     		}
     	}
-
-
 
     	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
     		mario.setSprite(texturaMarioVector);
@@ -80,38 +94,56 @@ Jogo::Jogo() {
     	}else{
     		mario.setSprite(texturaMarioVector);
     	}
+
     	mario.permiteMovimento(mapaJogo);
-        mario.movimentoTeclas();
+    	mario.movimentoTeclas();
+    	mario.sofreGravidade();
+
+    	barril.permiteMovimento(mapaJogo);
+    	barril.sofreGravidade();
+
 
 
         for (int i = 0; i < 7; ++i) {
         	if (colisao.verificarColisao(mario, plataforma[i])) {
                 mario.setNoAr(false);
-        		break;
-        	} else {
+                mario.setVelocidade(0, 0);
         	}
+        	if (colisao.verificarColisao(barril, plataforma[i])) {
+
+        	    if (barril.getSprite().getPosition().x + barril.getSprite().getGlobalBounds().width >= mapaJogo.getTamanhoJanela().width) {
+        	        barril.setVelocidade(-0.5, 0);
+        	    }
+
+        	    if (barril.getSprite().getPosition().x <= 0) {
+        	        barril.setVelocidade(0.5, 0);
+        	    }
+        	}
+
+        	barril.setPosition(
+        	    barril.getPosition().x + barril.getVelocidade().x,
+        	    barril.getPosition().y + barril.getVelocidade().y
+        	);
         }
 
-
-        // Verificar colisão com escadas
-        for (int i = 0; i < 9; ++i) {
-        	if (colisao.verificarColisao(mario.getSprite(), escada[i])) {
+        for (int i = 0; i < 11; ++i) {
+        	if (colisao.verificarColisao(mario, escada[i])) {
                 mario.setEmEscada(true);
-        		break;
+                break;
         	} else {
         		mario.setEmEscada(false);
         	}
         }
-
-
-        if (mario.getNoAr() && !mario.getEmEscada()) {
-            mario.sofreGravidade();
+        if(colisao.verificarColisao(mario, barril)){
+        	mario.setPosition(20, mapaJogo.getTamanhoJanela().height - 25);
+        	barril.setPosition(20, 10);
         }
+
 
         mapaJogo.getWindow().clear();
 
         mapaJogo.getWindow().draw(fundoJogo);
-        for (int i = 0; i < 9; ++i) {
+        for (int i = 0; i < 11; ++i) {
 			escada[i].draw(mapaJogo.getWindow());
 		}
         for (int i = 0; i < 7; ++i) {
@@ -119,9 +151,7 @@ Jogo::Jogo() {
         }
         mapaJogo.getWindow().draw(mario.getSprite());
 
-        if (mario.getNoAr() || !mario.getEmEscada()) {
-            mario.sofreGravidade();
-        }
+        mapaJogo.getWindow().draw(barril.getSprite());
 
         mapaJogo.getWindow().display();
     }

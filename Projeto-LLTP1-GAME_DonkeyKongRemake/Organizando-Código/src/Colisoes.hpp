@@ -18,8 +18,8 @@ class Colisoes {
 public:
 
 	  bool verificarColisao(Personagem &personagem, Plataforma &plataforma);
-
-	  bool verificarColisao(sf::Sprite &sprite1, Escada &escada);
+	  bool verificarColisao(Personagem &personagem1, Personagem &personagem2);
+	  bool verificarColisao(Personagem &personagem, Escada &escada);
 
 
 };

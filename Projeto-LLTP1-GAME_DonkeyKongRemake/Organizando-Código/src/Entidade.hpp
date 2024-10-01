@@ -25,8 +25,8 @@ public:
 
     void setPosition(float posX, float posY);
     void setSprite(sf::Texture texture[]);
-    void setSprite(const std::vector<sf::Texture>& texture);
-    void setSprite(sf::Texture texture);
+    void setSprite(const std::vector<sf::Texture> &texture);
+    void setSprite(sf::Texture &texture);
     void animaEntidade();
 
     ~Entidade();
