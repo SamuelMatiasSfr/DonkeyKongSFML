@@ -34,6 +34,7 @@ void Entidade::setSprite(sf::Texture texture[]) {
 
 void Entidade::setSprite(const std::vector<sf::Texture> &texture) {
     this->textura = texture;
+    corpo.setTexture(textura.back());
 }
 
 sf::Vector2f Entidade::getPosition() {
@@ -52,8 +53,7 @@ void Entidade::animaEntidade() {
     float switchTime = 0.5f;
 
     if (clock.getElapsedTime().asSeconds() > switchTime) {
-        currentTextureIndex = (currentTextureIndex + 1) % textura.size();
-        corpo.setTexture(textura[currentTextureIndex]);
+        corpo.rotate(45);
         clock.restart();
     }
 }

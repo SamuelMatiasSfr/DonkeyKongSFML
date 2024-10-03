@@ -62,3 +62,13 @@ bool Mario::getEmEscada(){
 bool Mario::getNoAr(){
 	return noAr;
 }
+
+void Mario::animaEntidade(){
+	float switchTime = 0.5f;
+
+	    if (clock.getElapsedTime().asSeconds() > switchTime) {
+	        currentTextureIndex = (currentTextureIndex + 1) % textura.size();
+	        corpo.setTexture(textura[currentTextureIndex]);
+	        clock.restart();
+	    }
+}

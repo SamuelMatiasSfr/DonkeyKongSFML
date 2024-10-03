@@ -9,8 +9,8 @@ protected:
 
 	float velocidadeX;
 	float velocidadeY;
-	const float deltaTime = 0.5 ;
-	const float gravidade = 0.3;
+	float deltaTime = 0.5 ;
+	float gravidade = 0.3;
 	bool podeAndar;
 
 public:

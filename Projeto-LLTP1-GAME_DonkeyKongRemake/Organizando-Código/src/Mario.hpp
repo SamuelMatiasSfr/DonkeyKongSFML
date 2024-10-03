@@ -17,6 +17,7 @@ public:
 	void movimentoTeclas();
 	bool getNoAr();
 	bool getEmEscada();
+	void animaEntidade();
 
 };
 
