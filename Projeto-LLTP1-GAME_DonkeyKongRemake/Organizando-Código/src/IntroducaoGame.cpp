@@ -56,6 +56,15 @@ IntroducaoGame::IntroducaoGame() {
 	tituloDonkeyKong.setPosition(60, 50);
 	tituloRemake.setPosition(230, 200);
 
+	/*
+	sf::SoundBuffer bufferComeco;
+	sf::Sound audioComeco;
+	if (!bufferComeco.loadFromFile("audios/comeco.wav")) {
+		std::cerr << "Erro ao carregar o arquivo de som!\n";
+	}
+	audioComeco.setBuffer(bufferComeco);
+	*/
+
 	sf::IntRect rect(0, 0, 300, 120);
 	sf::Vector2f escala(1.0f, 1.0f);
 	Entidade botaoPlay(texturaBotaoPlay[0], 400, 400, rect, escala);
@@ -90,7 +99,6 @@ IntroducaoGame::IntroducaoGame() {
 			}
 		}
 
-
 		carregamento.getWindow().clear();
 		carregamento.getWindow().draw(fundoCarregamento);
 		carregamento.getWindow().draw(tituloDonkeyKong);
@@ -98,10 +106,8 @@ IntroducaoGame::IntroducaoGame() {
 		carregamento.getWindow().draw(botaoPlay.getSprite());
 		carregamento.getWindow().draw(botaoCredito.getSprite());
 		carregamento.getWindow().display();
+
 	}
-
-
-
 }
 
 IntroducaoGame::~IntroducaoGame() {

@@ -7,14 +7,18 @@
 #include "Escada.hpp"
 #include "Colisoes.hpp"
 #include "Barril.hpp"
+#include "Kong.hpp"
 
 
 class Jogo {
+
 protected:
-	sf::Texture texturaFundoJogo, texturaMario, texturaMarioDireita, texturaBarril, texturaExplosao;
+	sf::SoundBuffer bufferMorte;
+	sf::Sound somMorte;
+	sf::Texture texturaFundoJogo, texturaMario, texturaMarioDireita, texturaBarril, texturaKong, texturaExplosao;
 	sf::Sprite fundoJogo, explosao;
 	sf::Image icon;
-	std::vector<sf::Texture> texturaMarioVector, texturaMarioVectorDireita, texturaBarrilVector;
+	std::vector<sf::Texture> texturaMarioVector, texturaMarioVectorDireita, texturaBarrilVector, texturaKongVector;
 	Colisoes colisao;
 	sf::Clock clock;
 	sf::Event evento;
@@ -27,21 +31,25 @@ protected:
 
 public:
 	Jogo();
-	void carregatexturas();
-	void geraEscadas();
-	void geraPlataformas();
-	void criaMapa();
+	~Jogo();
+
 	void setTexturas();
+
+	void carregarAudios();
+	void carregatexturas();
+	void geraPlataformas();
+	void geraEscadas();
 	void criaPersonagens();
+	void criaMapa();
 	void desenhaMapa();
 	void colideComPlataformas();
 	void colideComEscadas();
 	void colidePersonagens();
 	void movimentaPersonagens();
-	void fechaJanela();
 	void animaMario();
+	void fechaJanela();
 	void loopPrincipal();
-	~Jogo();
+
 };
 
 #endif /* JOGO_HPP_ */

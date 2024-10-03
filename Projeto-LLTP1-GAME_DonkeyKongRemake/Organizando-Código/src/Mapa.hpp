@@ -4,16 +4,15 @@
 #include <iostream>
 
 class Mapa{
-protected:
 
-	sf::VideoMode tamanho_janela;
-	sf::Sprite fundo_imagem;
+protected:
+	sf::VideoMode tamanhoJanela;
+	sf::Sprite fundoImagem;
 	sf::Vector2f cordenadas;
 	sf::RenderWindow window;
-	const sf::String nome_mapa = "Donkey Kong";
+	const sf::String nomeMapa = "Donkey Kong";
 
 public:
-
 	Mapa();
 	Mapa(sf::VideoMode tamJan);
 	Mapa(sf::VideoMode tamJan, sf::Sprite fundo);

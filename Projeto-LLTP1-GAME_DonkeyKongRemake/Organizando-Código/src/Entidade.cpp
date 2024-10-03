@@ -12,12 +12,20 @@ Entidade::Entidade(sf::Texture texture, int posX, int posY, sf::IntRect retangul
     corpo.setOrigin(corpo.getLocalBounds().width / 2, corpo.getLocalBounds().height / 2);
 }
 
+Entidade::~Entidade() {
+    std::cerr << "Entidade excluida!" << std::endl;
+}
+
 std::vector<sf::Texture> &Entidade::getTextura() {
     return textura;
 }
 
 sf::Sprite &Entidade::getSprite() {
     return corpo;
+}
+
+sf::Vector2f Entidade::getPosition() {
+    return sf::Vector2f(posicaoX, posicaoY);
 }
 
 void Entidade::setPosition(float posX, float posY) {
@@ -35,14 +43,6 @@ void Entidade::setSprite(sf::Texture texture[]) {
 void Entidade::setSprite(const std::vector<sf::Texture> &texture) {
     this->textura = texture;
     corpo.setTexture(textura.back());
-}
-
-sf::Vector2f Entidade::getPosition() {
-    return sf::Vector2f(posicaoX, posicaoY);
-}
-
-Entidade::~Entidade() {
-    std::cerr << "Entidade excluída!" << std::endl;
 }
 
 void Entidade::setSprite(sf::Texture &texture){

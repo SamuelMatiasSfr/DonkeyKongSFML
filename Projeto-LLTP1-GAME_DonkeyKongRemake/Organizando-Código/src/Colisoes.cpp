@@ -1,13 +1,6 @@
-/*
- * Colisoes.cpp
- *
- *  Created on: 28 de set. de 2024
- *      Author: mathe
- */
-
 #include "Colisoes.hpp"
 
-bool Colisoes::verificarColisao(Personagem &personagem, Plataforma &plataformas) {
+bool Colisoes::colisaoPersonagemPlataforma(Personagem &personagem, Plataforma &plataformas) {
 	for (auto &plataforma : plataformas.getSprites()) {
 		if (personagem.getSprite().getGlobalBounds().intersects(plataforma.getGlobalBounds())) {
 
@@ -23,6 +16,7 @@ bool Colisoes::verificarColisao(Personagem &personagem, Plataforma &plataformas)
 
 				colide = true;
 			}
+
 		}else{
 			colide = false;
 		}
@@ -31,15 +25,15 @@ bool Colisoes::verificarColisao(Personagem &personagem, Plataforma &plataformas)
 
 	return colide;
 }
-bool Colisoes::verificarColisao(Mario &mario, Plataforma &plataformas) {
+
+bool Colisoes::colisaoMarioPlataforma(Mario &mario, Plataforma &plataformas) {
     for (auto &plataforma : plataformas.getSprites()) {
         if (mario.getSprite().getGlobalBounds().intersects(plataforma.getGlobalBounds())) {
 
             float plataformaY = plataforma.getGlobalBounds().top;
             float marioBase = mario.getSprite().getGlobalBounds().top + mario.getSprite().getGlobalBounds().height;
 
-            if ((mario.getVelocidade().y > 0) &&
-                (marioBase >= plataformaY &&
+            if ((mario.getVelocidade().y > 0) && (marioBase >= plataformaY &&
                 mario.getSprite().getGlobalBounds().top <= plataformaY + plataforma.getGlobalBounds().height / 1000) &&
                 (!mario.getEmEscada() || !sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) {
 
@@ -50,18 +44,18 @@ bool Colisoes::verificarColisao(Mario &mario, Plataforma &plataformas) {
                 colide = true;
                 break;
             }
+
         }else{
     			colide = false;
     		}
     }
-
     mario.setVelocidade(mario.getVelocidade().x, mario.getVelocidade().y);
 
     return colide;
 }
 
 
-bool Colisoes::verificarColisao(Personagem &personagem, Escada &escadas) {
+bool Colisoes::colisaoPersonagemEscada(Personagem &personagem, Escada &escadas) {
 		for (auto &escada : escadas.getDegraus()) {
 		    if (personagem.getSprite().getGlobalBounds().intersects(escada.getGlobalBounds())) {
 		        colide = true;
@@ -74,7 +68,7 @@ bool Colisoes::verificarColisao(Personagem &personagem, Escada &escadas) {
 		return colide;
 }
 
-bool Colisoes::verificarColisao(Personagem &personagem1, Personagem &personagem2){
+bool Colisoes::colisaoEntrePersonagens(Personagem &personagem1, Personagem &personagem2){
 	if(personagem1.getSprite().getGlobalBounds().intersects(personagem2.getSprite().getGlobalBounds())){
 		colide = true;
 	}else{
@@ -83,8 +77,7 @@ bool Colisoes::verificarColisao(Personagem &personagem1, Personagem &personagem2
 	return colide;
 }
 
-void Colisoes::verificarColisao(Barril &barril, Mapa *mapa){
-
+void Colisoes::colisaoBarrilMapa(Barril &barril, Mapa *mapa){
 	    sf::Vector2f posicaoBarril = barril.getSprite().getPosition();
 	    sf::Vector2u tamanhoJanela = mapa->getWindow().getSize();
 
@@ -97,7 +90,6 @@ void Colisoes::verificarColisao(Barril &barril, Mapa *mapa){
 	    if (posicaoBarril.y <= 0) {
 	        barril.setVelocidade(barril.getVelocidade().x, -barril.getVelocidade().y);
 	    }
-
 	    if ((posicaoBarril.y + barril.getSprite().getGlobalBounds().height >= tamanhoJanela.y -
 	    		(barril.getSprite().getGlobalBounds().height)) && posicaoBarril.x <= 30) {
 	        barril.respawAleatotio(mapa->getWindow());

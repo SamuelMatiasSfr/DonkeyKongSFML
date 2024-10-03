@@ -7,12 +7,10 @@ Escada::Escada(){
 	}
 	textura.push_back(auxTextura);
 	corpo.setTexture(textura.back());
-
 }
 
 void Escada::defineEscada(int numDegraus, float posX, float posY){
-
-	this->numero_degrau = numDegraus;
+	this->numeroDegrau = numDegraus;
 	this->posicaoX = posX;
 	this->posicaoY = posY;
 	int incrementa_pixels = getSprite().getGlobalBounds().height;

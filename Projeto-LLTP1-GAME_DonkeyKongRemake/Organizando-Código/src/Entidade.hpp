@@ -6,6 +6,7 @@
 #include <iostream>
 
 class Entidade {
+
 protected:
     std::vector<sf::Texture> textura;
     sf::Sprite corpo;
@@ -15,9 +16,9 @@ protected:
     sf::Clock clock;
 
 public:
-
     Entidade();
     Entidade(sf::Texture textura, int posX, int posY, sf::IntRect retangulo, sf::Vector2f escala);
+    ~Entidade();
 
     std::vector<sf::Texture> &getTextura();
     sf::Sprite &getSprite();
@@ -27,9 +28,9 @@ public:
     void setSprite(sf::Texture texture[]);
     void setSprite(const std::vector<sf::Texture> &texture);
     void setSprite(sf::Texture &texture);
+
     void animaEntidade();
 
-    ~Entidade();
 };
 
 #endif // ENTIDADE_HPP_

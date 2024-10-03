@@ -4,19 +4,20 @@
 #include "Entidade.hpp"
 
 class Plataforma : public Entidade{
-protected:
 
-	std::vector<sf::Sprite> armazenaPlataforma;
-	int grau_inclinacao = 0;
-	int quantidade_plataformas = 0;
+protected:
+	std::vector<sf::Sprite> armazenaPlataformas;
+	int grauInclinacao = 0;
+	int quantidadePlataformas = 0;
 
 public:
-
 	Plataforma();
-	void definePlataforma(bool plataformaRegressa, int inclina, int qtd, int posX, int posY);
+
+	std::vector<sf::Sprite> &getSprites();
+	int getGrauInclinacao();
+
+	void definePlataforma(bool plataformaRegressa, int inclinacao, int quant, int posX, int posY);
     void draw(sf::RenderWindow &window);
-    std::vector<sf::Sprite> &getSprites();
-    int getGrauInclinacao();
 
 };
 
