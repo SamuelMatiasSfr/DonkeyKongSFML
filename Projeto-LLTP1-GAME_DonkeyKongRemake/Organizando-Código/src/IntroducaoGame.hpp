@@ -6,9 +6,11 @@
 #include "Jogo.hpp"
 
 class IntroducaoGame {
+
 public:
 	IntroducaoGame();
 	~IntroducaoGame();
+
 };
 
 #endif /* INTRODUCAOGAME_HPP_ */

@@ -1,11 +1,14 @@
 #include "Entidade.hpp"
 
-Entidade::Entidade() : posicaoX(0), posicaoY(0), currentTextureIndex(0) {}
+Entidade::Entidade(){
+	posicaoX = 0;
+	posicaoY = 0;
+}
 
-Entidade::Entidade(sf::Texture texture, int posX, int posY, sf::IntRect retangulo, sf::Vector2f escala)
-    : posicaoX(posX), posicaoY(posY), currentTextureIndex(0) {
-    this->textura.push_back(texture);
-    corpo.setTexture(textura[0]);
+Entidade::Entidade(sf::Texture &texture, float posX, float posY, sf::IntRect retangulo, sf::Vector2f escala){
+	posicaoX = posX;
+	posicaoY = posY;
+    corpo.setTexture(texture);
     corpo.setTextureRect(retangulo);
     corpo.setScale(escala);
     corpo.setPosition(posicaoX, posicaoY);
@@ -13,47 +16,32 @@ Entidade::Entidade(sf::Texture texture, int posX, int posY, sf::IntRect retangul
 }
 
 Entidade::~Entidade() {
-    std::cerr << "Entidade excluida!" << std::endl;
+    std::cerr << "Entidade excluida\n";
 }
 
-std::vector<sf::Texture> &Entidade::getTextura() {
+sf::Texture &Entidade::getTextura(){
     return textura;
 }
 
-sf::Sprite &Entidade::getSprite() {
+sf::Sprite &Entidade::getSprite(){
     return corpo;
 }
 
-sf::Vector2f Entidade::getPosition() {
+sf::Vector2f Entidade::getPosicao(){
     return sf::Vector2f(posicaoX, posicaoY);
 }
 
-void Entidade::setPosition(float posX, float posY) {
-    this->posicaoX = posX;
-    this->posicaoY = posY;
+void Entidade::setPosicao(float posX, float posY){
+    posicaoX = posX;
+    posicaoY = posY;
     corpo.setPosition(posX, posY);
 }
 
-void Entidade::setSprite(sf::Texture texture[]) {
-    for (int i = 0; i < 5; ++i) {
-        textura.push_back(texture[i]);
-    }
+void Entidade::setTexturaSprite(sf::Texture &textura, sf::IntRect &retangulo){
+	corpo.setTexture(textura);
+	corpo.setTextureRect(retangulo);
 }
 
-void Entidade::setSprite(const std::vector<sf::Texture> &texture) {
-    this->textura = texture;
-    corpo.setTexture(textura.back());
-}
-
-void Entidade::setSprite(sf::Texture &texture){
-	corpo.setTexture(texture);
-}
-
-void Entidade::animaEntidade() {
-    float switchTime = 0.5f;
-
-    if (clock.getElapsedTime().asSeconds() > switchTime) {
-        corpo.rotate(45);
-        clock.restart();
-    }
+void Entidade::setTexturaSprite(sf::Texture &textura){
+	corpo.setTexture(textura);
 }

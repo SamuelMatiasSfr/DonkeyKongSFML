@@ -1,41 +1,40 @@
-
 #include "IntroducaoGame.hpp"
 
 IntroducaoGame::IntroducaoGame() {
-	sf::Texture texturaFundoCarregamento;
-	if (!texturaFundoCarregamento.loadFromFile("imagens/fundoCarregamento.jpg")) {
-		std::cerr << "Erro ao abrir a imagem de fundo." << std::endl;
+
+	sf::Texture texturaFundoTelaInicial;
+	if (!texturaFundoTelaInicial.loadFromFile("imagens/fundoCarregamento.jpg")) {
+		std::cerr << "Erro ao abrir a imagem de fundo\n";
 	}
 
-	sf::Sprite fundoCarregamento;
-	fundoCarregamento.setTexture(texturaFundoCarregamento);
+	sf::Sprite fundoTelaInicial;
+	fundoTelaInicial.setTexture(texturaFundoTelaInicial);
 
-	sf::VideoMode tamjanela(texturaFundoCarregamento.getSize().x, texturaFundoCarregamento.getSize().y);
+	sf::VideoMode tamjanela(texturaFundoTelaInicial.getSize().x, texturaFundoTelaInicial.getSize().y);
 	sf::Event event;
 	sf::Image icon;
 	if (!icon.loadFromFile("imagens/donkeyKong-icon.png")) {
-		std::cerr << "Erro ao abrir a textura do botão jogar." << std::endl;
+		std::cerr << "Erro ao abrir a textura de �cone\n";
 	}
 
-	Mapa carregamento(tamjanela, fundoCarregamento);
-	carregamento.getWindow().setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+	Mapa mapaTelaInicial(tamjanela, fundoTelaInicial);
+	mapaTelaInicial.getWindow().setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
 
 	sf::Texture texturaBotaoPlay[2];
 	if (!texturaBotaoPlay[0].loadFromFile("imagens/botaoJogar.png")) {
-		std::cerr << "Erro ao abrir a textura do botão jogar." << std::endl;
+		std::cerr << "Erro ao abrir a textura do botao de jogar\n";
 	}
 	if (!texturaBotaoPlay[1].loadFromFile("imagens/botaoJogarHover.png")) {
-		std::cerr << "Erro ao abrir a textura do botão jogar hover." << std::endl;
+		std::cerr << "Erro ao abrir a textura do botao jogar hover\n";
 	}
 
 	sf::Texture texturaBotaoCredito[2];
-
 	if (!texturaBotaoCredito[0].loadFromFile("imagens/botaoCreditos.png")) {
-		std::cerr << "Erro ao abrir a textura do botão jogar." << std::endl;
+		std::cerr << "Erro ao abrir a textura do botao de cr�ditos\n";
 	}
 	if (!texturaBotaoCredito[1].loadFromFile("imagens/botaoCreditosHover.png")) {
-		std::cerr << "Erro ao abrir a textura do botão jogar hover." << std::endl;
+		std::cerr << "Erro ao abrir a textura do botaoo de cr�ditos hover\n";
 	}
 
 	sf::Font fonteDonkeyKongTitulo, fonteTituloRemake;
@@ -56,61 +55,66 @@ IntroducaoGame::IntroducaoGame() {
 	tituloDonkeyKong.setPosition(60, 50);
 	tituloRemake.setPosition(230, 200);
 
-	/*
-	sf::SoundBuffer bufferComeco;
-	sf::Sound audioComeco;
-	if (!bufferComeco.loadFromFile("audios/comeco.wav")) {
-		std::cerr << "Erro ao carregar o arquivo de som!\n";
+	sf::Music musicaComeco;
+	if (!musicaComeco.openFromFile("audios/comeco.flac")) {
+		std::cerr << "Erro ao carregar o arquivo de som\n";
 	}
-	audioComeco.setBuffer(bufferComeco);
-	*/
+	musicaComeco.setVolume(50);
 
-	sf::IntRect rect(0, 0, 300, 120);
+	sf::IntRect retangulo(0, 0, 300, 120);
 	sf::Vector2f escala(1.0f, 1.0f);
-	Entidade botaoPlay(texturaBotaoPlay[0], 400, 400, rect, escala);
-	Entidade botaoCredito(texturaBotaoCredito[0], 400, 550, rect, escala);
+	Entidade botaoPlay(texturaBotaoPlay[0], 400, 400, retangulo, escala);
+	Entidade botaoCredito(texturaBotaoCredito[0], 400, 550, retangulo, escala);
 
 	// Loop principal
-	// Loop principal
-	while (carregamento.getWindow().isOpen()) {
-		while (carregamento.getWindow().pollEvent(event)) {
+	while (mapaTelaInicial.getWindow().isOpen()) {
+		while (mapaTelaInicial.getWindow().pollEvent(event)) {
 			if (event.type == sf::Event::Closed) {
-				carregamento.getWindow().close();
+				mapaTelaInicial.getWindow().close();
 			}
 		}
 
-		sf::Vector2i mousePos = sf::Mouse::getPosition(carregamento.getWindow());
-		carregamento.setCordenadas(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+		sf::Vector2i mousePos = sf::Mouse::getPosition(mapaTelaInicial.getWindow());
+		mapaTelaInicial.setCordenadas(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 
-		if (botaoPlay.getSprite().getGlobalBounds().contains(carregamento.getCordenadas())) {
-			botaoPlay.setSprite(texturaBotaoPlay[1]);
+		if (botaoPlay.getSprite().getGlobalBounds().contains(mapaTelaInicial.getCordenadas())) {
+			botaoPlay.setTexturaSprite(texturaBotaoPlay[1]);
 		} else {
-			botaoPlay.setSprite(texturaBotaoPlay[0]);
+			botaoPlay.setTexturaSprite(texturaBotaoPlay[0]);
 		}
-		if (botaoCredito.getSprite().getGlobalBounds().contains(carregamento.getCordenadas())) {
-			botaoCredito.setSprite(texturaBotaoCredito[1]);
+		if (botaoCredito.getSprite().getGlobalBounds().contains(mapaTelaInicial.getCordenadas())) {
+			botaoCredito.setTexturaSprite(texturaBotaoCredito[1]);
 		} else {
-			botaoCredito.setSprite(texturaBotaoCredito[0]);
+			botaoCredito.setTexturaSprite(texturaBotaoCredito[0]);
 		}
 		if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-			if(botaoPlay.getSprite().getGlobalBounds().contains(carregamento.getCordenadas())){
-				carregamento.~Mapa();
+			if(botaoPlay.getSprite().getGlobalBounds().contains(mapaTelaInicial.getCordenadas())){
+				mapaTelaInicial.~Mapa();
+				if(musicaComeco.getStatus() == sf::Sound::Playing){
+					musicaComeco.pause();
+				}
 				Jogo jogo;
 			}
 		}
 
-		carregamento.getWindow().clear();
-		carregamento.getWindow().draw(fundoCarregamento);
-		carregamento.getWindow().draw(tituloDonkeyKong);
-		carregamento.getWindow().draw(tituloRemake);
-		carregamento.getWindow().draw(botaoPlay.getSprite());
-		carregamento.getWindow().draw(botaoCredito.getSprite());
-		carregamento.getWindow().display();
+		mapaTelaInicial.getWindow().clear();
+
+		if(musicaComeco.getStatus() != sf::Sound::Playing){
+			musicaComeco.play();
+		}
+
+		mapaTelaInicial.getWindow().draw(fundoTelaInicial);
+		mapaTelaInicial.getWindow().draw(tituloDonkeyKong);
+		mapaTelaInicial.getWindow().draw(tituloRemake);
+		mapaTelaInicial.getWindow().draw(botaoPlay.getSprite());
+		mapaTelaInicial.getWindow().draw(botaoCredito.getSprite());
+
+		mapaTelaInicial.getWindow().display();
 
 	}
 }
 
 IntroducaoGame::~IntroducaoGame() {
-	std::cerr << "Tela de Introdução Destruida";
+	std::cerr << "Tela de Introducao Destruida\n";
 }
 

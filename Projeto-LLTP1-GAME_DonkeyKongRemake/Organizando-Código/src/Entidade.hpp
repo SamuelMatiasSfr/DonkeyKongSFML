@@ -8,28 +8,23 @@
 class Entidade {
 
 protected:
-    std::vector<sf::Texture> textura;
+    sf::Texture textura;
     sf::Sprite corpo;
     float posicaoX;
     float posicaoY;
-    int currentTextureIndex;
-    sf::Clock clock;
 
 public:
     Entidade();
-    Entidade(sf::Texture textura, int posX, int posY, sf::IntRect retangulo, sf::Vector2f escala);
+    Entidade(sf::Texture &textura, float posX, float posY, sf::IntRect retangulo, sf::Vector2f escala);
     ~Entidade();
 
-    std::vector<sf::Texture> &getTextura();
+    sf::Texture &getTextura();
     sf::Sprite &getSprite();
-    sf::Vector2f getPosition();
+    sf::Vector2f getPosicao();
 
-    void setPosition(float posX, float posY);
-    void setSprite(sf::Texture texture[]);
-    void setSprite(const std::vector<sf::Texture> &texture);
-    void setSprite(sf::Texture &texture);
-
-    void animaEntidade();
+    void setPosicao(float posX, float posY);
+    void setTexturaSprite(sf::Texture &textura, sf::IntRect &retangulo);
+    void setTexturaSprite(sf::Texture &textura);
 
 };
 

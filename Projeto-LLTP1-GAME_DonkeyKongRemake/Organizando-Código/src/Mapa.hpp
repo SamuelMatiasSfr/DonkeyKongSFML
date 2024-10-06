@@ -5,7 +5,7 @@
 
 class Mapa{
 
-protected:
+private:
 	sf::VideoMode tamanhoJanela;
 	sf::Sprite fundoImagem;
 	sf::Vector2f cordenadas;
@@ -13,21 +13,17 @@ protected:
 	const sf::String nomeMapa = "Donkey Kong";
 
 public:
-	Mapa();
-	Mapa(sf::VideoMode tamJan);
 	Mapa(sf::VideoMode tamJan, sf::Sprite fundo);
-	Mapa(sf::Texture texturaFundo, sf::RenderWindow &janela);
 	~Mapa();
 
 	sf::RenderWindow &getWindow();
 	sf::Vector2f getCordenadas();
 	sf::VideoMode getTamanhoJanela();
 
-	void setFundoImage(sf::Sprite &fundo_imagem);
-	void setFundoImage(sf::Texture &fundo_textura);
-	void setTamanhoJanela(float a, float b);
-	void setCordenadas(sf::Vector2f cord);
-	void setCordenadas(float a, float b);
+	void setFundoImage(sf::Texture &fundoTextura);
+	void setTamanhoJanela(float x, float y);
+	void setCordenadas(float x, float y);
+
 };
 
 #endif /* MAPA_HPP_ */

@@ -2,53 +2,68 @@
 #define JOGO_HPP_
 
 #include "Mapa.hpp"
-#include "Mario.hpp"
-#include "Plataforma.hpp"
-#include "Escada.hpp"
 #include "Colisoes.hpp"
+#include "Mario.hpp"
 #include "Barril.hpp"
 #include "Kong.hpp"
-
+#include "Pauline.hpp"
+#include "Plataforma.hpp"
+#include "Escada.hpp"
+#include "GameOver.hpp"
 
 class Jogo {
 
-protected:
-	sf::SoundBuffer bufferMorte;
-	sf::Sound somMorte;
-	sf::Texture texturaFundoJogo, texturaMario, texturaMarioDireita, texturaBarril, texturaKong, texturaExplosao;
-	sf::Sprite fundoJogo, explosao;
+private:
+	sf::Music musicaFundo, musicaGanhou;
+	sf::SoundBuffer bufferMorte, bufferGet, bufferMartelo;
+	sf::Sound somMorte, somGet, somMartelo;
+	sf::Texture texturaFundoJogo, texturaMarioLeft, texturaMarioDireita, texturaMarioSubindo, texturaMarioParado, texturaMarteloEsquerda,
+	texturaMarteloDireita, texturaBarril, texturaKong, texturaEscada, texturaPlataforma, texturaPaulineDireita,
+	texturaPaulineEsquerda, texturaPaulineCoracao, texturaMartelo, texturaCoracao;
+	sf::Sprite fundoJogo;
+	std::vector<sf::Sprite>coracoes;
 	sf::Image icon;
-	std::vector<sf::Texture> texturaMarioVector, texturaMarioVectorDireita, texturaBarrilVector, texturaKongVector;
 	Colisoes colisao;
-	sf::Clock clock;
 	sf::Event evento;
 
 	Mapa *mapaJogo;
 	Mario *mario;
-	Barril *barril;
-	Escada *escada;
-	Plataforma *plataforma;
+	Kong *kong;
+	Pauline *pauline;
+	Barril *barris;
+	Escada *escadas;
+	Plataforma *plataformas;
+	Entidade *martelo;
 
 public:
 	Jogo();
 	~Jogo();
 
-	void setTexturas();
+	void setTexturaFundo();
 
 	void carregarAudios();
-	void carregatexturas();
-	void geraPlataformas();
-	void geraEscadas();
-	void criaPersonagens();
-	void criaMapa();
-	void desenhaMapa();
-	void colideComPlataformas();
-	void colideComEscadas();
-	void colidePersonagens();
-	void movimentaPersonagens();
-	void animaMario();
-	void fechaJanela();
+	void carregartexturas();
+	void gerarPlataformas();
+	void gerarEscadas();
+	void criarPersonagens();
+	void criarVidas();
+	void criarMapa();
+	void desenharMapa();
+	void dificultarJogo();
+	void morteBarril(Barril &barril);
+	void morteMario();
+	void colidirMarioMartelo();
+	void colidirComPlataformas();
+	void colidirComEscadas();
+	void colidirPersonagens();
+	void movimentarPersonagens();
+	void respawnarBarris();
+	void animarMario(int *auxiliar);
+	void animarPauline();
+	void fecharJanela();
 	void loopPrincipal();
+	void gameOver();
+	void ganharJogo();
 
 };
 

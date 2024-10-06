@@ -5,16 +5,17 @@
 
 class Escada : public Entidade{
 
-protected:
-	int numeroDegrau = 0;
+private:
+	int numeroDegraus;
 	std::vector<sf::Sprite> degraus;
 
 public:
 	Escada();
 
+	std::vector<sf::Sprite> getDegraus();
+
 	void defineEscada(int numDegrau, float posX, float posY);
 	void draw(sf::RenderWindow &janela);
-	std::vector<sf::Sprite> getDegraus();
 
 };
 

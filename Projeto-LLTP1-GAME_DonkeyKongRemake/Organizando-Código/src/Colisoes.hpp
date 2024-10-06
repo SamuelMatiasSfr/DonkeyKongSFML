@@ -5,20 +5,20 @@
 #include <vector>
 
 #include "Mario.hpp"
+#include "Barril.hpp"
 #include "Plataforma.hpp"
 #include "Escada.hpp"
-#include "Barril.hpp"
 
 class Colisoes {
 
-protected:
+private:
 	bool colide;
 
 public:
-	  bool colisaoPersonagemPlataforma(Personagem &personagem, Plataforma &plataforma);
+	  void colisaoBarrilPlataforma(Barril &personagem, Plataforma &plataforma);
 	  bool colisaoMarioPlataforma(Mario &mario, Plataforma &plataformas);
 	  bool colisaoPersonagemEscada(Personagem &personagem, Escada &escada);
-	  bool colisaoEntrePersonagens(Personagem &personagem1, Personagem &personagem2);
+	  bool colisaoEntrePersonagens(Personagem &mario, Personagem &barril);
 	  void colisaoBarrilMapa(Barril &barril, Mapa *mapa);
 
 };

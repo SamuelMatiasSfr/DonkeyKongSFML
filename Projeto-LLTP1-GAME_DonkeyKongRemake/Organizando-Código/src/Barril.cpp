@@ -1,33 +1,50 @@
 #include "Barril.hpp"
 
-Barril::Barril(sf::Texture textura, int posX, int posY, sf::IntRect retangulo, sf::Vector2f escala, float velX, float velY) :
-Personagem(textura,posX, posY, retangulo, escala, velX, velY){
-	desceEscada = false;
-}
-
-Barril::Barril(){
-	desceEscada = 0;
-}
-
-Barril::~Barril() {
+Barril::Barril(sf::Texture &textura, float posX, float posY)
+:Personagem(textura,posX, posY, sf::IntRect(0, 0, 12, 10), sf::Vector2f(2.5f, 3.0f), 4, 0){
 
 }
 
-bool Barril::getDesceEscada(){
-	return desceEscada;
-}
+Barril::Barril(){}
+
+Barril::~Barril() {}
 
 void Barril::respawAleatotio(sf::RenderWindow &window){
-	int windowWidth = static_cast<int>(window.getSize().x);
-	int windowHeight = static_cast<int>(window.getSize().y);
+	int windowLargura = static_cast<int>(window.getSize().x);
+	int windowAltura = static_cast<int>(window.getSize().y/3);
 
-	int spriteWidth = static_cast<int>(getSprite().getGlobalBounds().width);
-	int spriteHeight = static_cast<int>(getSprite().getGlobalBounds().height);
+	int spriteLargura = static_cast<int>(getSprite().getGlobalBounds().width);
+	int spriteAltura = static_cast<int>(getSprite().getGlobalBounds().height);
 
-	float randomX = static_cast<float>(rand() % (windowWidth - spriteWidth));
-	float randomY = static_cast<float>(rand() % (windowHeight - spriteHeight));
+	float randomX = static_cast<float>(rand() % (windowLargura - spriteLargura));
+	float randomY = static_cast<float>(rand() % (windowAltura - spriteAltura));
 
-	setPosition(randomX, randomY);
+	setPosicao(randomX, randomY);
 }
 
+void Barril::determinarMovimento(){
+	int random = rand() % 2;
+
+	if(random == 0){
+		velocidadeX = -velocidadeX;
+	}
+}
+
+
+void Barril::mover(){
+	animarBarril();
+	posicaoX = posicaoX + velocidadeX;
+	posicaoY = posicaoY + velocidadeY;
+	corpo.setPosition(posicaoX, posicaoY);
+}
+
+//rotaciona o barril, de forma que o barril parece estar girando
+void Barril::animarBarril() {
+    float tempoRotacao = 0.5f;
+
+    if (clock.getElapsedTime().asSeconds() > tempoRotacao) {
+        corpo.rotate(45);
+        clock.restart();
+    }
+}
 

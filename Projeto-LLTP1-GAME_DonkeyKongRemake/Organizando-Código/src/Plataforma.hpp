@@ -5,10 +5,10 @@
 
 class Plataforma : public Entidade{
 
-protected:
-	std::vector<sf::Sprite> armazenaPlataformas;
-	int grauInclinacao = 0;
-	int quantidadePlataformas = 0;
+private:
+	std::vector<sf::Sprite> armazenadorPlataformas;
+	int grauInclinacao;
+	int quantidadePlataformas;
 
 public:
 	Plataforma();
@@ -16,7 +16,7 @@ public:
 	std::vector<sf::Sprite> &getSprites();
 	int getGrauInclinacao();
 
-	void definePlataforma(bool plataformaRegressa, int inclinacao, int quant, int posX, int posY);
+	void definePlataforma(bool plataformaRegressa, int inclinacao, int quant, float posX, float posY);
     void draw(sf::RenderWindow &window);
 
 };

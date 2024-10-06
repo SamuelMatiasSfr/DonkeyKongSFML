@@ -8,7 +8,13 @@
 
 class Mario : public Personagem{
 
-protected:
+private:
+	bool ganhouJogo;
+	int vidas;
+	bool paraEsquerda;
+	bool paraDireita;
+	bool pegouMartelo;
+	bool apertouX;
 	bool emEscada;
 	bool noAr;
 	sf::SoundBuffer bufferAndar;
@@ -17,17 +23,29 @@ protected:
 	sf::Sound somPular;
 
 public:
-	Mario(sf::Texture textura, int posX, int posY, sf::IntRect retangulo, sf::Vector2f escala, float velX, float velY);
+	Mario(sf::Texture &textura, float posX, float posY);
+	~Mario();
 
+	bool getGanhou();
+	void setGanhou(bool ganhou);
+	int getVidas();
+	void setVidas(int vida);
+	bool getApertouX();
+	void setApertouX(bool apertou);
+	bool getParaEsquerda();
+	bool getParaDireita();
+	void setParaDireitaEsquerda(bool direita, bool esquerda);
+	bool getPegouMartelo();
+	void setPegouMartelo(bool pegou);
 	bool getEmEscada();
 	void setEmEscada(bool estaNaEscada);
 	bool getNoAr();
 	void setNoAr(bool estaNoAr);
 
 	bool testarSom(sf::Sound som);
-	void movimentoTeclas();
+	void mover() override; //função herdada de personagem.hpp e implementada em mario.cpp
 	void pular();
-	void animaEntidade();
+	void permitirMovimento(Mapa &map);
 
 };
 

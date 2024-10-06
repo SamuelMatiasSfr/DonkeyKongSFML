@@ -1,29 +1,22 @@
 #include "Colisoes.hpp"
 
-bool Colisoes::colisaoPersonagemPlataforma(Personagem &personagem, Plataforma &plataformas) {
+void Colisoes::colisaoBarrilPlataforma(Barril &barril, Plataforma &plataformas) {
 	for (auto &plataforma : plataformas.getSprites()) {
-		if (personagem.getSprite().getGlobalBounds().intersects(plataforma.getGlobalBounds())) {
+		if (barril.getSprite().getGlobalBounds().intersects(plataforma.getGlobalBounds())) {
 
 			float plataformaY = plataforma.getGlobalBounds().top;
-			float personagemBase = personagem.getSprite().getGlobalBounds().top + personagem.getSprite().getGlobalBounds().height;
+			float personagemBase = barril.getSprite().getGlobalBounds().top + barril.getSprite().getGlobalBounds().height;
 
-			if ((personagem.getVelocidade().y > 0) && (personagemBase >= plataformaY &&
-					personagem.getSprite().getGlobalBounds().top <= plataformaY + plataforma.getGlobalBounds().height/1000)) {
+			if ((barril.getVelocidade().y > 0) && (personagemBase >= plataformaY &&
+					barril.getSprite().getGlobalBounds().top <= plataformaY + plataforma.getGlobalBounds().height/1000)) {
 
-				personagem.setVelocidade(personagem.getVelocidade().x, 0);
-				personagem.setPosition(personagem.getSprite().getPosition().x,
-						plataformaY - personagem.getSprite().getGlobalBounds().height/3);
+				barril.setVelocidade(barril.getVelocidade().x, 0);
+				barril.setPosicao(barril.getSprite().getPosition().x,
+						plataformaY - barril.getSprite().getGlobalBounds().height/3);
 
-				colide = true;
 			}
-
-		}else{
-			colide = false;
 		}
 	}
-	personagem.setVelocidade(personagem.getVelocidade().x, personagem.getVelocidade().y);
-
-	return colide;
 }
 
 bool Colisoes::colisaoMarioPlataforma(Mario &mario, Plataforma &plataformas) {
@@ -38,7 +31,7 @@ bool Colisoes::colisaoMarioPlataforma(Mario &mario, Plataforma &plataformas) {
                 (!mario.getEmEscada() || !sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) {
 
             	mario.setVelocidade(mario.getVelocidade().x, 0);
-                mario.setPosition(mario.getSprite().getPosition().x,
+                mario.setPosicao(mario.getSprite().getPosition().x,
                 		plataformaY - mario.getSprite().getGlobalBounds().height/3);
 
                 colide = true;
@@ -68,8 +61,16 @@ bool Colisoes::colisaoPersonagemEscada(Personagem &personagem, Escada &escadas) 
 		return colide;
 }
 
-bool Colisoes::colisaoEntrePersonagens(Personagem &personagem1, Personagem &personagem2){
-	if(personagem1.getSprite().getGlobalBounds().intersects(personagem2.getSprite().getGlobalBounds())){
+bool Colisoes::colisaoEntrePersonagens(Personagem &mario, Personagem &barril){
+	sf::FloatRect marioBounds = mario.getSprite().getGlobalBounds();
+	sf::FloatRect barrilBounds = barril.getSprite().getGlobalBounds();
+
+	marioBounds.height -= 25;
+	marioBounds.width -= 25;
+	barrilBounds.height -= 25;
+	barrilBounds.width -= 25;
+
+	if(marioBounds.intersects(barrilBounds)){
 		colide = true;
 	}else{
 		colide = false;
@@ -78,27 +79,23 @@ bool Colisoes::colisaoEntrePersonagens(Personagem &personagem1, Personagem &pers
 }
 
 void Colisoes::colisaoBarrilMapa(Barril &barril, Mapa *mapa){
-	    sf::Vector2f posicaoBarril = barril.getSprite().getPosition();
-	    sf::Vector2u tamanhoJanela = mapa->getWindow().getSize();
+	if (barril.getSprite().getPosition().x + barril.getSprite().getGlobalBounds().width >= mapa->getTamanhoJanela().width){
+						barril.setVelocidade(-barril.getVelocidade().x, barril.getVelocidade().y);
+						barril.setPosicao(barril.getPosicao().x - 30, barril.getPosicao().y);
+	}
 
-	    if (posicaoBarril.x + barril.getSprite().getGlobalBounds().width >= tamanhoJanela.x) {
-	        barril.setVelocidade(-barril.getVelocidade().x, barril.getVelocidade().y);
-	    }
-	    if (posicaoBarril.x <= 0) {
-	        barril.setVelocidade(-barril.getVelocidade().x, barril.getVelocidade().y);
-	    }
-	    if (posicaoBarril.y <= 0) {
-	        barril.setVelocidade(barril.getVelocidade().x, -barril.getVelocidade().y);
-	    }
-	    if ((posicaoBarril.y + barril.getSprite().getGlobalBounds().height >= tamanhoJanela.y -
-	    		(barril.getSprite().getGlobalBounds().height)) && posicaoBarril.x <= 30) {
-	        barril.respawAleatotio(mapa->getWindow());
-	    }
+	if (barril.getSprite().getPosition().x <= 0) {
+		barril.setVelocidade(-barril.getVelocidade().x, barril.getVelocidade().y);
+	}
 
-	    sf::Vector2f posicaoBarril2 = barril.getSprite().getPosition();
+	if ((barril.getSprite().getPosition().y  + barril.getSprite().getGlobalBounds().height >= mapa->getWindow().getSize().y)
+			&& barril.getSprite().getPosition().x <= 30) {
+		barril.respawAleatotio(mapa->getWindow());
+	}
 
-	    barril.setPosition(posicaoBarril2.x + barril.getVelocidade().x,
-	                          posicaoBarril2.y + barril.getVelocidade().y);
+	if (barril.getSprite().getPosition().x == 500){
+		barril.determinarMovimento();
+	}
 }
 
 
