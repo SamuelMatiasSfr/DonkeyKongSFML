@@ -14,7 +14,7 @@ GameOver::GameOver() {
 
 	sf::Image icon;
 	if (!icon.loadFromFile("imagens/donkeyKong-icon.png")) {
-		std::cerr << "Erro ao abrir a textura de �cone\n";
+		std::cerr << "Erro ao abrir a textura de �cone\n";
 	}
 
 	Mapa mapaGameOver(tamjanela, fundoGameOver);
@@ -29,6 +29,14 @@ GameOver::GameOver() {
 		std::cerr << "Erro ao abrir a textura do botao jogar hover\n";
 	}
 
+	sf::Texture texturaBotaoCredito[2];
+	if (!texturaBotaoCredito[0].loadFromFile("imagens/botaoCreditos.png") ||
+			!texturaBotaoCredito[1].loadFromFile("imagens/botaoCreditosHover.png")) {
+		std::cerr << "Erro ao carregar texturas de botão Créditos." << std::endl;
+	}
+
+
+
 	sf::Font fonteTituloRemake;
 	fonteTituloRemake.loadFromFile("fontes/fonte1.TTF");
 
@@ -37,7 +45,9 @@ GameOver::GameOver() {
 	tituloRemake.setString("GAME OVER");
 	tituloRemake.setFillColor(sf::Color(111, 0, 0));
 	tituloRemake.setCharacterSize(60);
-	tituloRemake.setPosition(230, 200);
+	tituloRemake.setPosition(tamjanela.width/5, 200);
+	tituloRemake.setOutlineThickness(3);
+	tituloRemake.setOutlineColor(sf::Color(162, 130, 0));
 
 	sf::Music musicaGameOver;
 	if (!musicaGameOver.openFromFile("audios/gameOver.flac")) {
@@ -48,6 +58,7 @@ GameOver::GameOver() {
 	sf::IntRect retangulo(0, 0, 300, 120);
 	sf::Vector2f escala(1.0f, 1.0f);
 	Entidade botaoPlay(texturaBotaoPlay[0], 400, 400, retangulo, escala);
+	Entidade botaoCredito(texturaBotaoCredito[0], 400, 550, retangulo, escala);
 
 	// Loop principal
 	while (mapaGameOver.getWindow().isOpen()) {
@@ -65,6 +76,12 @@ GameOver::GameOver() {
 		} else {
 			botaoPlay.setTexturaSprite(texturaBotaoPlay[0]);
 		}
+		if (botaoCredito.getSprite().getGlobalBounds().contains(mapaGameOver.getCordenadas())) {
+			botaoCredito.setTexturaSprite(texturaBotaoCredito[1]);
+		} else {
+			botaoCredito.setTexturaSprite(texturaBotaoCredito[0]);
+		}
+
 		if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
 			if(botaoPlay.getSprite().getGlobalBounds().contains(mapaGameOver.getCordenadas())){
 				mapaGameOver.~Mapa();
@@ -73,6 +90,10 @@ GameOver::GameOver() {
 				}
 				Jogo jogo;
 			}
+			else if (botaoCredito.getSprite().getGlobalBounds().contains(mapaGameOver.getCordenadas())) {
+				Credito mostraCreditos;
+			}
+
 		}
 
 		mapaGameOver.getWindow().clear();
@@ -84,6 +105,7 @@ GameOver::GameOver() {
 		mapaGameOver.getWindow().draw(fundoGameOver);
 		mapaGameOver.getWindow().draw(tituloRemake);
 		mapaGameOver.getWindow().draw(botaoPlay.getSprite());
+		mapaGameOver.getWindow().draw(botaoCredito.getSprite());
 
 		mapaGameOver.getWindow().display();
 

@@ -9,13 +9,13 @@
 class Barril : public Personagem {
 
 public:
-	Barril(sf::Texture &textura, float posX, float posY);
+	Barril(sf::Texture &textura);
 	Barril();
 	~Barril();
 
 	void respawAleatotio(sf::RenderWindow &window);
 	void determinarMovimento();
-	void mover() override;
+	void mover();
 	void animarBarril();
 
 };

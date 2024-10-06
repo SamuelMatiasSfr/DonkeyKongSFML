@@ -35,4 +35,8 @@ void Personagem::sofrerGravidade(){
 	setPosicao(getPosicao().x, getPosicao().y + velocidadeY);
 }
 
+void Personagem::mover(){
+	setPosicao(getPosicao().x + velocidadeX, getPosicao().y + velocidadeY);
+}
+
 

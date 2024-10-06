@@ -13,7 +13,7 @@ private:
 	int vidas;
 	bool paraEsquerda;
 	bool paraDireita;
-	bool pegouMartelo;
+	bool pegouEscudo;
 	bool apertouX;
 	bool emEscada;
 	bool noAr;
@@ -35,15 +35,15 @@ public:
 	bool getParaEsquerda();
 	bool getParaDireita();
 	void setParaDireitaEsquerda(bool direita, bool esquerda);
-	bool getPegouMartelo();
-	void setPegouMartelo(bool pegou);
+	bool getPegouEscudo();
+	void setPegouEscudo(bool pegou);
 	bool getEmEscada();
 	void setEmEscada(bool estaNaEscada);
 	bool getNoAr();
 	void setNoAr(bool estaNoAr);
 
 	bool testarSom(sf::Sound som);
-	void mover() override; //função herdada de personagem.hpp e implementada em mario.cpp
+	void mover(); //funï¿½ï¿½o herdada de personagem.hpp e implementada em mario.cpp
 	void pular();
 	void permitirMovimento(Mapa &map);
 

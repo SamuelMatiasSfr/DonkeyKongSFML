@@ -16,11 +16,16 @@ void Pauline::mover(){
 	}else if(posicaoX <= 220 ){
 		velocidadeX = velocidadeX*(-1);
 	}
+	if(!textura.loadFromFile("imagens/pauline.png")){
+		std::cerr << "erro ao carregar pauline";
+	}
 
-	//animação da Pauline
+	//animaï¿½ï¿½o da Pauline
 	int x=0;
-	x=(int)posicaoX /35 % 2;
-	x = x*45;
+
+	x=(int)posicaoX /37 % 2;
+	x = x*53;
+
 	sf::IntRect retangulo(x, 0, 15, 22);
 	setTexturaSprite(textura, retangulo);
 

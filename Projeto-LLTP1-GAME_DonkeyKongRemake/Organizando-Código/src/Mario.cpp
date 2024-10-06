@@ -5,14 +5,14 @@ Mario::Mario(sf::Texture &textura, float posX, float posY)
 	vidas = 3;
 	ganhouJogo = false;
 	apertouX = false;
-	pegouMartelo = false;
+	pegouEscudo = false;
 	paraEsquerda = false;
 	paraDireita = true;
 	podeAndar = true;
 	emEscada = false;
 	noAr = false;
 
-	//carrega os sons de andar e pular do mário
+	//carrega os sons de andar e pular do mï¿½rio
 	if (!bufferAndar.loadFromFile("audios/andar_.wav")) {
 		std::cerr << "Erro ao carregar o arquivo de som!\n";
 	}
@@ -65,12 +65,12 @@ void Mario::setParaDireitaEsquerda(bool direita, bool esquerda){
 	paraEsquerda = esquerda;
 }
 
-bool Mario::getPegouMartelo(){
-	return pegouMartelo;
+bool Mario::getPegouEscudo(){
+	return pegouEscudo;
 }
 
-void Mario::setPegouMartelo(bool pegou){
-	pegouMartelo = pegou;
+void Mario::setPegouEscudo(bool pegou){
+	pegouEscudo = pegou;
 }
 
 bool Mario::getEmEscada(){
@@ -89,7 +89,7 @@ void Mario::setNoAr(bool estaNoAr){
 	noAr = estaNoAr;
 }
 
-//verifica se o som está tocando ou não
+//verifica se o som estï¿½ tocando ou nï¿½o
 bool Mario::testarSom(sf::Sound som){
 	if(som.getStatus() != sf::Sound::Playing){
 		return true;
@@ -154,7 +154,7 @@ void Mario::pular(){
 	}
 }
 
-//verifica os limites do mapa, para o mário não sair da tela
+//verifica os limites do mapa, para o mï¿½rio nï¿½o sair da tela
 void Mario::permitirMovimento(Mapa &map){
 	if(corpo.getPosition().x >= (map.getTamanhoJanela().width - 1) ){
 		podeAndar = false;

@@ -15,11 +15,11 @@ class Jogo {
 
 private:
 	sf::Music musicaFundo, musicaGanhou;
-	sf::SoundBuffer bufferMorte, bufferGet, bufferMartelo;
-	sf::Sound somMorte, somGet, somMartelo;
-	sf::Texture texturaFundoJogo, texturaMarioLeft, texturaMarioDireita, texturaMarioSubindo, texturaMarioParado, texturaMarteloEsquerda,
-	texturaMarteloDireita, texturaBarril, texturaKong, texturaEscada, texturaPlataforma, texturaPaulineDireita,
-	texturaPaulineEsquerda, texturaPaulineCoracao, texturaMartelo, texturaCoracao;
+	sf::SoundBuffer bufferMorte, bufferGet, bufferEscudo;
+	sf::Sound somMorte, somGet, somEscudo;
+	sf::Texture texturaFundoJogo, texturaMarioLeft, texturaMarioDireita, texturaMarioSubindo, texturaMarioParado, texturaEscudoEsquerda,
+	texturaEscudoDireita, texturaBarril, texturaKong, texturaEscada, texturaPlataforma, texturaPaulineDireita,
+	texturaPaulineEsquerda, texturaPaulineCoracao, texturaEscudo, texturaCoracao, texturaCoracaoApagado;
 	sf::Sprite fundoJogo;
 	std::vector<sf::Sprite>coracoes;
 	sf::Image icon;
@@ -30,10 +30,14 @@ private:
 	Mario *mario;
 	Kong *kong;
 	Pauline *pauline;
-	Barril *barris;
-	Escada *escadas;
-	Plataforma *plataformas;
-	Entidade *martelo;
+
+	std::vector<Barril> barris;
+	std::vector<Escada> escadas;
+	std::vector<Plataforma> plataformas;
+
+	Entidade *escudo;
+
+	sf::Clock clock;
 
 public:
 	Jogo();
@@ -45,20 +49,27 @@ public:
 	void carregartexturas();
 	void gerarPlataformas();
 	void gerarEscadas();
+
 	void criarPersonagens();
 	void criarVidas();
 	void criarMapa();
+
 	void desenharMapa();
 	void dificultarJogo();
+
 	void morteBarril(Barril &barril);
 	void morteMario();
-	void colidirMarioMartelo();
+
+	void colidirMarioEscudo();
 	void colidirComPlataformas();
 	void colidirComEscadas();
 	void colidirPersonagens();
+
 	void movimentarPersonagens();
+
 	void respawnarBarris();
 	void animarMario(int *auxiliar);
+
 	void animarPauline();
 	void fecharJanela();
 	void loopPrincipal();

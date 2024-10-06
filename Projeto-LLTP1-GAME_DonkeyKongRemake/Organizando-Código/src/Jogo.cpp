@@ -1,6 +1,7 @@
 #include "Jogo.hpp"
 
-Jogo::Jogo(){
+Jogo::Jogo() : barris(7), plataformas(7), escadas(11){
+
 	carregarAudios();
 	carregartexturas();
 	gerarEscadas();
@@ -18,10 +19,7 @@ Jogo::~Jogo(){
 	delete mario;
 	delete kong;
 	delete pauline;
-	delete martelo;
-	delete[] barris;
-	delete[] escadas;
-	delete[] plataformas;
+	delete escudo;
 
     std::cerr << "Jogo Fechado\n";
 }
@@ -31,13 +29,14 @@ void Jogo::setTexturaFundo(){
 }
 
 void Jogo::carregarAudios(){
+
 	if (!musicaFundo.openFromFile("audios/audioFundo.flac")) {
-	    std::cerr << "Erro ao carregar a música de fundo\n";
+	    std::cerr << "Erro ao carregar a mï¿½sica de fundo\n";
 	}
 	musicaFundo.setVolume(50);
 
 	if (!musicaGanhou.openFromFile("audios/ganhou.wav")) {
-	    std::cerr << "Erro ao carregar a música de fundo\n";
+	    std::cerr << "Erro ao carregar a mï¿½sica de fundo\n";
 	}
 	musicaGanhou.setVolume(100);
 
@@ -53,11 +52,11 @@ void Jogo::carregarAudios(){
 	somGet.setBuffer(bufferGet);
 	somGet.setVolume(50);
 
-	if (!bufferMartelo.loadFromFile("audios/martelo.wav")){
-		std::cerr << "Erro ao carregar som do martelo\n";
+	if (!bufferEscudo.loadFromFile("audios/escudo.wav")){
+		std::cerr << "Erro ao carregar som do escudo\n";
 	}
-	somMartelo.setBuffer(bufferMartelo);
-	somMartelo.setVolume(100);
+	somEscudo.setBuffer(bufferEscudo);
+	somEscudo.setVolume(100);
 }
 
 void Jogo::carregartexturas(){
@@ -66,7 +65,7 @@ void Jogo::carregartexturas(){
 		std::cerr << "Erro ao carregar textura do fundo\n";
 	}
 	if (!icon.loadFromFile("imagens/donkeyKong-icon.png")) {
-		std::cerr << "Erro ao carregar textura do ícone\n";
+		std::cerr << "Erro ao carregar textura do ï¿½cone\n";
 	}
 
 	//textura escada
@@ -96,12 +95,12 @@ void Jogo::carregartexturas(){
 		std::cerr << "Erro ao carregar textura do Mario parado\n";
 	}
 
-	if (!texturaMarteloEsquerda.loadFromFile("imagens/marteloEsquerda.png")){
-		std::cerr << "Erro ao carregar textura do Mario com martelo\n";
+	if (!texturaEscudoEsquerda.loadFromFile("imagens/marteloEsquerda.png")){
+		std::cerr << "Erro ao carregar textura do Mario com escudo\n";
 	}
 
-	if (!texturaMarteloDireita.loadFromFile("imagens/marteloDireita.png")){
-		std::cerr << "Erro ao carregar textura do Mario com martelo\n";
+	if (!texturaEscudoDireita.loadFromFile("imagens/marteloDireita.png")){
+		std::cerr << "Erro ao carregar textura do Mario com escudo\n";
 	}
 
 	//textura barril
@@ -114,22 +113,13 @@ void Jogo::carregartexturas(){
 		std::cerr << "Erro ao carregar textura do Kong\n";
 	}
 
-	//texturas pauline
-	if (!texturaPaulineDireita.loadFromFile("imagens/paulineDireita.png")){
-		std::cerr << "Erro ao carregar textura da Pauline Direita\n";
-	}
-
-	if (!texturaPaulineEsquerda.loadFromFile("imagens/paulineEsquerda.png")){
-		std::cerr << "Erro ao carregar textura da Pauline Esquerda\n";
-	}
-
 	if (!texturaPaulineCoracao.loadFromFile("imagens/paulineCoracao.png")){
 		std::cerr << "Erro ao carregar textura da Pauline com coracao\n";
 	}
 
-	//textura martelo
-	if (!texturaMartelo.loadFromFile("imagens/martelo.png")){
-		std::cerr << "Erro ao carregar textura do martelo\n";
+	//textura escudo
+	if (!texturaEscudo.loadFromFile("imagens/escudo.png")){
+		std::cerr << "Erro ao carregar textura do escudo\n";
 	}
 
 	//textura coracao
@@ -137,14 +127,13 @@ void Jogo::carregartexturas(){
 		std::cerr << "Erro ao carregar textura do coracao\n";
 	}
 
+	if (!texturaCoracaoApagado.loadFromFile("imagens/perdendovida.png")){
+			std::cerr << "Erro ao carregar textura do coracao\n";
+		}
+
 }
 
 void Jogo::gerarPlataformas(){
-	plataformas = new Plataforma[7];
-
-	for(int i=0; i<7; i++){
-		plataformas[i].setTexturaSprite(texturaPlataforma);
-	}
 
 	plataformas[0].definePlataforma( false, 0, 14, 0, 110);
 	plataformas[1].definePlataforma( false, 0, 22, 0, 230);
@@ -153,13 +142,10 @@ void Jogo::gerarPlataformas(){
 	plataformas[4].definePlataforma( true, 1, 21, 1000, 520);
 	plataformas[5].definePlataforma( false, 1, 21, 0, 650);
 	plataformas[6].definePlataforma( false, 0, 42, 0, 780);
+
 }
 
 void Jogo::gerarEscadas(){
-    escadas = new Escada[11];
-	for(int i=0; i<11; i++){
-		escadas[i].setTexturaSprite(texturaEscada);
-	}
 
 	escadas[0].defineEscada(13, 650, 230);
 	escadas[1].defineEscada(11, 200, 110);
@@ -175,24 +161,16 @@ void Jogo::gerarEscadas(){
 }
 
 void Jogo::criarPersonagens(){
-	mario = new Mario(texturaMarioDireita, 300, 780-plataformas[0].getSprite().getGlobalBounds().height);
-	kong = new Kong(texturaKong, 100, 120-plataformas[0].getSprite().getGlobalBounds().height*2);
-	pauline = new Pauline(texturaPaulineDireita, 250, 120-plataformas[0].getSprite().getGlobalBounds().height);
-	martelo = new Entidade(texturaMartelo, 150, 120+plataformas[0].getSprite().getGlobalBounds().height, sf::IntRect(0,0,9,15), sf::Vector2f(3.0f, 3.0f));
-	barris = new Barril[7];
 
-	for (int i = 0; i < 7; ++i) {
-		int windowLargura = static_cast<int>(mapaJogo->getWindow().getSize().x);
-		int windowAltura = static_cast<int>(mapaJogo->getWindow().getSize().y/3);
+	mario = new Mario(texturaMarioDireita, 300, 780  -plataformas[0].getSprite().getGlobalBounds().height);
+	kong = new Kong(texturaKong, 100, 110- 47);
+	pauline = new Pauline(texturaPaulineDireita, 250, 120 - plataformas[0].getSprite().getGlobalBounds().height);
+	escudo = new Entidade(texturaEscudo, 50, 530 - plataformas[0].getSprite().getGlobalBounds().height, sf::IntRect(0,0,5000,5000), sf::Vector2f(0.03f, 0.03f));
 
-		int spriteLargura = static_cast<int>(barris[i].getSprite().getGlobalBounds().width);
-		int spriteAltura = static_cast<int>(barris[i].getSprite().getGlobalBounds().height);
+	for (size_t i = 0; i < barris.size(); ++i) {
 
-		float posX = static_cast<float>(rand() % (windowLargura - spriteLargura));
-		float posY = static_cast<float>(rand() % (windowAltura - spriteAltura));
-
-		barris[i] = Barril(texturaBarril, posX, posY);
-		barris[i].getSprite().setTexture(texturaBarril);
+		barris[i] = Barril(texturaBarril);
+		barris[i].respawAleatotio(mapaJogo->getWindow());
 		barris[i].determinarMovimento();
 	}
 }
@@ -201,8 +179,8 @@ void Jogo::criarVidas(){
 	for(int i=0; i<3; i++){
 		sf::Sprite coracao;
 		coracao.setTexture(texturaCoracao);
-		coracao.setScale(4.0f, 4.0f);
-		coracao.setPosition(800+(coracao.getGlobalBounds().width/2*i), 100);
+		coracao.setScale(0.02f, 0.02f);
+		coracao.setPosition(700+(coracao.getGlobalBounds().width/2*i), 0);
 		coracoes.push_back(coracao);
 	}
 }
@@ -214,14 +192,14 @@ void Jogo::criarMapa(){
 
 void Jogo::desenharMapa(){
     mapaJogo->getWindow().draw(fundoJogo);
-    for (int i = 0; i < 11; ++i) {
+    for (size_t i = 0; i < escadas.size(); ++i) {
     	escadas[i].draw(mapaJogo->getWindow());
     }
-    for (int i = 0; i < 7; ++i) {
+    for (size_t i = 0; i < plataformas.size(); ++i) {
     	plataformas[i].draw(mapaJogo->getWindow());
     }
 
-    for(int i=0; i<7; i++){
+    for (size_t i = 0; i < barris.size(); ++i){
     	mapaJogo->getWindow().draw(barris[i].getSprite());
     }
 
@@ -232,15 +210,19 @@ void Jogo::desenharMapa(){
     mapaJogo->getWindow().draw(kong->getSprite());
     mapaJogo->getWindow().draw(mario->getSprite());
     mapaJogo->getWindow().draw(pauline->getSprite());
-    mapaJogo->getWindow().draw(martelo->getSprite());
+    mapaJogo->getWindow().draw(escudo->getSprite());
 }
 
 void Jogo::dificultarJogo(){
-	if(mario->getPosicao(). y < (mapaJogo->getWindow().getSize().y/2)){
-		for(int i=0; i<3; i++){
-			barris[i].respawAleatotio(mapaJogo->getWindow());
+	if(clock.getElapsedTime().asSeconds() > 5.0f){
+		if(mario->getPosicao(). y < (mapaJogo->getWindow().getSize().y/2)){
+			for(int i=0; i < 7; i++){
+				barris[i].respawAleatotio(mapaJogo->getWindow());
+				clock.restart();
+			}
 		}
 	}
+
 }
 
 void Jogo::morteBarril(Barril &barril){
@@ -249,11 +231,11 @@ void Jogo::morteBarril(Barril &barril){
 }
 
 void Jogo::morteMario(){
-	coracoes.at(mario->getVidas()-1).setPosition(-200, -200);
+	coracoes.at(mario->getVidas()-1).setTexture(texturaCoracaoApagado);
 	mario->setVidas(mario->getVidas()-1);
 
-	mario->setPegouMartelo(false);
-	martelo->setPosicao(150, 120+plataformas[0].getSprite().getGlobalBounds().height+10);
+	mario->setPegouEscudo(false);
+	escudo->setPosicao(550, 300+plataformas[0].getSprite().getGlobalBounds().height+10);
 
 	if(musicaFundo.getStatus() == sf::Music::Playing){
 		musicaFundo.pause();
@@ -268,27 +250,35 @@ void Jogo::morteMario(){
 	respawnarBarris();
 }
 
-void Jogo::colidirMarioMartelo(){
-	if(mario->getSprite().getGlobalBounds().intersects(martelo->getSprite().getGlobalBounds())){
-		if(somGet.getStatus() != sf::Sound::Playing){
-			somGet.play();
-			sf::sleep(sf::seconds(1));
-		}
-		mario->setPegouMartelo(true);
-		martelo->setPosicao(-100, -100);
-	}
+void Jogo::colidirMarioEscudo(){
+	if (mario->getSprite().getGlobalBounds().intersects(escudo->getSprite().getGlobalBounds())) {
+	        if (somGet.getStatus() != sf::Sound::Playing) {
+	            somGet.play();
+	        }
+
+	        mario->getSprite().setColor(sf::Color::Blue);
+	        mario->setPegouEscudo(true);
+	        escudo->setPosicao(-100, -100);
+
+	        clock.restart();
+	    }
+
+	    if (mario->getPegouEscudo() && clock.getElapsedTime().asSeconds() >= 5) {
+	        mario->getSprite().setColor(sf::Color::White);
+	        mario->setPegouEscudo(false);
+	    }
 }
 
 void Jogo::colidirComPlataformas(){
-	//colisão mario e plataformas
-    for (int i = 0; i < 7; ++i) {
+	//colisï¿½o mario e plataformas
+    for (size_t i = 0; i < plataformas.size(); ++i) {
     	if (colisao.colisaoMarioPlataforma(*mario, plataformas[i])) {
             mario->setNoAr(false);
             mario->setVelocidade(0, 0);
     	}
 
-    	//colisão barril e plataformas
-    	for (int j = 0; j < 7; ++j) {
+    	//colisï¿½o barril e plataformas
+    	for (size_t j = 0; j < barris.size(); ++j) {
     		colisao.colisaoBarrilPlataforma(barris[j], plataformas[i]);
 		}
 
@@ -297,8 +287,8 @@ void Jogo::colidirComPlataformas(){
 }
 
 void Jogo::colidirComEscadas(){
-	//colisão mario e escadas
-	for (int i = 0; i < 11; ++i) {
+	//colisï¿½o mario e escadas
+	for (size_t i = 0; i < escadas.size(); ++i) {
 		if(i != 6 && i!= 7){
 			if (colisao.colisaoPersonagemEscada(*mario, escadas[i])) {
 				mario->setEmEscada(true);
@@ -312,20 +302,23 @@ void Jogo::colidirComEscadas(){
 }
 
 void Jogo::colidirPersonagens(){
-	//colisão mario e barril
-	for (int i = 0; i < 7; ++i) {
-		if(colisao.colisaoEntrePersonagens(*mario, barris[i])){
-			if(mario->getApertouX()){
-				morteBarril(barris[i]);
-			}else{
-				morteMario();
+	//colisï¿½o mario e barril
+	if(!mario->getPegouEscudo()){
+		for (size_t i = 0; i < barris.size(); ++i) {
+			if(colisao.colisaoEntrePersonagens(*mario, barris[i])){
+				if(mario->getApertouX()){
+					morteBarril(barris[i]);
+				}else{
+					morteMario();
+				}
 			}
 		}
 	}
+
 }
 
 void Jogo::movimentarPersonagens(){
-	//movimento mário
+	//movimento mï¿½rio
 	mario->permitirMovimento(*mapaJogo);
 	mario->mover();
 	mario->sofrerGravidade();
@@ -335,7 +328,7 @@ void Jogo::movimentarPersonagens(){
 	pauline->mover();
 
 	//movimento barril
-	for (int i = 0; i < 7; ++i) {
+	for (size_t i = 0; i < barris.size(); ++i) {
 		colisao.colisaoBarrilMapa(barris[i], mapaJogo);
 		barris[i].mover();
 		barris[i].sofrerGravidade();
@@ -343,7 +336,7 @@ void Jogo::movimentarPersonagens(){
 }
 
 void Jogo::respawnarBarris(){
-	for(int i=0; i<7; i++){
+	for (size_t i = 0; i < barris.size(); ++i){
 		barris[i].respawAleatotio(mapaJogo->getWindow());
 	}
 }
@@ -369,21 +362,21 @@ void Jogo::animarMario(int *auxiliar){
 		*auxiliar = 3;
 		sf::IntRect retangulo(0, 0, 13, 16);
 		mario->setTexturaSprite(texturaMarioSubindo, retangulo);
-	}else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && (mario->getPegouMartelo()) && (mario->getParaDireita())){
+	}else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && (mario->getPegouEscudo()) && (mario->getParaDireita())){
 		*auxiliar = 4;
 		sf::IntRect retangulo(0, 0, 25, 29);
-		mario->setTexturaSprite(texturaMarteloDireita, retangulo);
+		mario->setTexturaSprite(texturaEscudoDireita, retangulo);
 		mario->setApertouX(true);
-		if(somMartelo.getStatus() != sf::Sound::Playing){
-			somMartelo.play();
+		if(somEscudo.getStatus() != sf::Sound::Playing){
+			somEscudo.play();
 		}
-	}else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && (mario->getPegouMartelo()) && (mario->getParaEsquerda())){
+	}else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && (mario->getPegouEscudo()) && (mario->getParaEsquerda())){
 		*auxiliar = 5;
 		sf::IntRect retangulo(0, 0, 25, 29);
-		mario->setTexturaSprite(texturaMarteloEsquerda, retangulo);
+		mario->setTexturaSprite(texturaEscudoEsquerda, retangulo);
 		mario->setApertouX(true);
-		if(somMartelo.getStatus() != sf::Sound::Playing){
-			somMartelo.play();
+		if(somEscudo.getStatus() != sf::Sound::Playing){
+			somEscudo.play();
 		}
 	}else{
 		if(*auxiliar == 1 || *auxiliar == 4){
@@ -433,7 +426,7 @@ void Jogo::loopPrincipal(){
 			colidirComPlataformas();
 			colidirComEscadas();
 			colidirPersonagens();
-			colidirMarioMartelo();
+			colidirMarioEscudo();
 			gameOver();
 		}
 		ganharJogo();
@@ -458,7 +451,7 @@ void Jogo::gameOver(){
 
 void Jogo::ganharJogo(){
 	if(colisao.colisaoEntrePersonagens(*mario, *pauline)){
-		for(int i=0; i<7; i++){
+		for (size_t i = 0; i < barris.size(); ++i){
 			barris[i].setVelocidade(0,0);
 		}
 

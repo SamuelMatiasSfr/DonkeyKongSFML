@@ -19,6 +19,8 @@ public:
 	void definePlataforma(bool plataformaRegressa, int inclinacao, int quant, float posX, float posY);
     void draw(sf::RenderWindow &window);
 
+    void carregaTextura();
+
 };
 
 

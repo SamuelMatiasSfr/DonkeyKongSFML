@@ -17,6 +17,8 @@ public:
 	void defineEscada(int numDegrau, float posX, float posY);
 	void draw(sf::RenderWindow &janela);
 
+	void carregaTextura();
+
 };
 
 

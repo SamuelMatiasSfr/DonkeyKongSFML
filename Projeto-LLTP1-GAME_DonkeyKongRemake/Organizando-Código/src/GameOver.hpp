@@ -4,6 +4,7 @@
 #include "Mapa.hpp"
 #include "Entidade.hpp"
 #include "Jogo.hpp"
+#include "Credito.hpp"
 
 class GameOver {
 

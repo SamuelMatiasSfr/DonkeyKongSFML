@@ -3,6 +3,17 @@
 Plataforma::Plataforma(){ //chama Entidade()
 	grauInclinacao = 0;
 	quantidadePlataformas = 0;
+	carregaTextura();
+}
+
+void Plataforma::carregaTextura(){
+
+	if(!textura.loadFromFile("imagens/plataforma.png")){
+		std::cerr << "Erro ao carregar textura da plataforma";
+	}
+
+	corpo.setTexture(textura);
+	corpo.setScale(1.2, 1.2);
 }
 
 std::vector<sf::Sprite> &Plataforma::getSprites() {

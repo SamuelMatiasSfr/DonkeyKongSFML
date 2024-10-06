@@ -22,7 +22,7 @@ public:
 	bool getPodeAndar();
 	void setVelocidade(float velX, float velY);
 
-	virtual void mover() = 0; //função implementada nas classes filhas
+	void mover(); //funï¿½ï¿½o implementada nas classes filhas
 	void sofrerGravidade();
 
 };

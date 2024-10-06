@@ -1,7 +1,7 @@
 #include "Barril.hpp"
 
-Barril::Barril(sf::Texture &textura, float posX, float posY)
-:Personagem(textura,posX, posY, sf::IntRect(0, 0, 12, 10), sf::Vector2f(2.5f, 3.0f), 4, 0){
+Barril::Barril(sf::Texture &textura)
+:Personagem(textura, 20 , 20, sf::IntRect(0, 0, 12, 10), sf::Vector2f(2.5f, 3.0f), 4, 0){
 
 }
 

@@ -9,7 +9,7 @@ public:
 	Pauline(sf::Texture &textura, float posX, float posY);
 	~Pauline();
 
-	void mover() override; //função herdada de personagem.hpp e implementada em pauline.cpp
+	void mover(); //funï¿½ï¿½o herdada de personagem.hpp e implementada em pauline.cpp
 
 };
 
