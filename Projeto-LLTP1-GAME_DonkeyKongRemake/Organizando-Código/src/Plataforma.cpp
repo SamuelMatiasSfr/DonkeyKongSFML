@@ -15,7 +15,7 @@ void Plataforma::carregaTextura(){
 	corpo.setScale(1.2, 1.2);
 }
 
-std::vector<sf::Sprite> &Plataforma::getSprites() {
+std::vector<sf::Sprite> &Plataforma::getPlataformas() {
 	return armazenadorPlataformas;
 }
 

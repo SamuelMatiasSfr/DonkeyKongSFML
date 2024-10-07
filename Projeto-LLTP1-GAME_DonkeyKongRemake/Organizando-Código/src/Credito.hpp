@@ -25,6 +25,22 @@ protected:
 public:
 	Credito();
 	~Credito();
+
+	void carregaTexturaseTextos();
+
+	void aplicaTexturas();
+
+	void configuraBonecos();
+
+	void configuraTextos();
+
+	void configuraMapa();
+
+	void loopPrincipal();
+
+	void desenharMapa();
+
+	void fechaJanela();
 };
 
 #endif /* CREDITO_HPP_ */

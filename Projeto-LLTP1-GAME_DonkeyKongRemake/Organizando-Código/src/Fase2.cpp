@@ -188,7 +188,7 @@ void Fase2::gerarEscadas(){
 	escadas[4].defineEscada(12, 50, 375);
 	escadas[5].defineEscada(10, 50, 530);
 	escadas[6].defineEscada(12, 900, 385);
-	escadas[7].defineEscada(12, 900, 470);
+	escadas[7].defineEscada(12, 900, 385);
 	escadas[8].defineEscada(10, 900, 650);
 	escadas[9].defineEscada(12, 900, 230);
 	escadas[10].defineEscada(12, 900, 530);
@@ -259,7 +259,7 @@ void Fase2::desenharMapa(){
 }
 
 void Fase2::morteBarril(Barril &barril){
-	barril.respawAleatotio(mapaJogo->getWindow());
+	barril.setPosicao(0 -texturaFundoJogo.getSize().x, 0);
 }
 
 void Fase2::morteMario(){
@@ -275,6 +275,13 @@ void Fase2::morteMario(){
 	if(somMorte.getStatus() != sf::Sound::Playing){
 		somMorte.play();
 		sf::sleep(sf::seconds(5));
+	}
+	for (size_t i = 0; i < coin.size(); ++i) {
+		float j = i;
+		if(i == coin.size() - 1){
+			j = i - 0.2;
+		}
+		coin[i].setPosicao(500, (150*j) + 200);
 	}
 	musicaFundo.play();
 
@@ -301,7 +308,7 @@ void Fase2::colidirMarioMartelo(){
 
 void Fase2::colidirMarioMoeda(){
 	for (size_t i = 0; i < coin.size(); ++i){
-		if(colisao.colisaoEntrePersonagens(*mario, coin[i])){
+		if(colisao.colisaoEntreEntidades(*mario, coin[i])){
 			coin[i].setPosicao(-100, -100);
 			mario->setPegaCoins(mario->getPegaCoins() + 1);
 		}
@@ -374,8 +381,15 @@ void Fase2::movimentarPersonagens(){
 }
 
 void Fase2::respawnarBarris(){
-	for (size_t i = 0; i < barris.size(); ++i){
-		barris[i].respawAleatotio(mapaJogo->getWindow());
+	for (size_t i = 0; i < barris.size(); ++i) {
+		float j = i;
+		if (i == barris.size() - 1){
+			j = i - 0.2;
+		}
+		barris[i] = Barril(texturaBarril);
+		barris[i].setVelocidade(2.0*(barris.size() - j) + 3.0, 0);
+		barris[i].setPosicao(30 , (150*j) + 200);
+		barris[i].determinarMovimento();
 	}
 }
 
@@ -526,7 +540,7 @@ void Fase2::perguntaProximaFase(){
 	if(mario->getGanhou()){
 		if(clockGanhou.getElapsedTime().asSeconds() >= 5){
 			Fase2::~Fase2();
-			JogarDeNovo pergunta;
+			IntroducaoGame pergunta;
 		}
 	}
 }

@@ -9,6 +9,7 @@
 #define FASE2_HPP_
 
 #include "Fase1.hpp"
+#include "IntroducaoGame.hpp"
 
 class Fase2 {
 
