@@ -535,12 +535,12 @@ void Fase2::ganharJogo(){
 	}
 }
 
-void Fase2::perguntaProximaFase(){
+void Fase2::perguntaProximaFase(){//ao ganhar e tempo ser maior que 5 destroi a fase e volta jogador para a tela de introdução
 
 	if(mario->getGanhou()){
 		if(clockGanhou.getElapsedTime().asSeconds() >= 5){
 			Fase2::~Fase2();
-			IntroducaoGame pergunta;
+			IntroducaoGame iniciaNovamente;
 		}
 	}
 }
