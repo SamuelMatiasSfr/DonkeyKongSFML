@@ -12,14 +12,11 @@ private:
 public:
 	Escada();
 
-	std::vector<sf::Sprite> getDegraus();
+	std::vector<sf::Sprite> &getDegraus();
 
 	void defineEscada(int numDegrau, float posX, float posY);
 	void draw(sf::RenderWindow &janela);
 
-	void carregaTextura();
-
 };
-
 
 #endif /* ESCADA_HPP_ */

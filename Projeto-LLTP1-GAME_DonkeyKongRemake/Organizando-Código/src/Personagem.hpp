@@ -12,7 +12,6 @@ protected:
 	float deltaTime = 0.5 ;
 	float gravidade = 0.3;
 	bool podeAndar;
-    sf::Clock clock;
 
 public:
 	Personagem();
@@ -22,7 +21,6 @@ public:
 	bool getPodeAndar();
 	void setVelocidade(float velX, float velY);
 
-	void mover(); //fun��o implementada nas classes filhas
 	void sofrerGravidade();
 
 };

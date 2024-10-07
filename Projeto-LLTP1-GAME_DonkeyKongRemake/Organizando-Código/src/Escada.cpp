@@ -1,18 +1,10 @@
 #include "Escada.hpp"
 
-Escada::Escada(){ //chama Entidade()
+Escada::Escada() : degraus(0){ //chama Entidade()
 	numeroDegraus = 0;
-	carregaTextura();
 }
 
-void Escada::carregaTextura(){
-	if(!textura.loadFromFile("imagens/escada.png")){
-		std::cerr << "Erro ao carregar textura da escada";
-	}
-	corpo.setTexture(textura);
-}
-
-std::vector<sf::Sprite> Escada::getDegraus() {
+std::vector<sf::Sprite> &Escada::getDegraus(){
 	return degraus;
 }
 
@@ -20,15 +12,18 @@ void Escada::defineEscada(int numDegraus, float posX, float posY){
 	numeroDegraus = numDegraus;
 	posicaoX = posX;
 	posicaoY = posY;
-	int incrementaPosicao = getSprite().getGlobalBounds().height;
+	float incrementaPosicao = getSprite().getGlobalBounds().height;
 
-	//cada escada � criado degrau por degrau
+	//cada escada criada degrau por degrau
 	for (int i = 0; i < numDegraus; ++i) {
-		sf::Sprite degrauAtual = corpo; //degrauAtual recebe o sprite de degrau com a textura passada
+		sf::Sprite novoDegrau = corpo; //degrauAtual recebe o sprite de degrau com a textura passada
 
-	    //incrementa a posi��o em Y conforme a altura do sprite degrau, portanto a escada � criada de cima para baixo
-		degrauAtual.setPosition(posX, posY + incrementaPosicao * i);
-		degraus.push_back(degrauAtual);
+	    /*
+	     * incrementa a posicao em Y conforme a altura do sprite degrau, portanto a escada eh criada de cima para baixo,
+	     * levando em consideracao o eixo x e y da SFML.
+	     */
+		novoDegrau.setPosition(posX, posY + incrementaPosicao * i);
+		degraus.push_back(novoDegrau);
 	}
 }
 

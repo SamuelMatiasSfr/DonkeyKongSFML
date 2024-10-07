@@ -9,8 +9,6 @@ public:
 	Kong(sf::Texture &textura, float posX, float posY);
 	~Kong();
 
-	void mover(); //fun��o herdada de personagem.hpp e implementada em kong.cpp
-
 };
 
 #endif /* KONG_HPP_ */

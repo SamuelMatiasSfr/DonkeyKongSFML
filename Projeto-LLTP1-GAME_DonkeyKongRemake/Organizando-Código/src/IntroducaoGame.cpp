@@ -1,47 +1,41 @@
 #include "IntroducaoGame.hpp"
 
-
-void IntroducaoGame::IniciarJogo(){
-	delete carregamento;
-	new Jogo();
-}
-
-void IntroducaoGame::mostraCreditos(){
-	new Credito();
-}
-
 IntroducaoGame::IntroducaoGame(){
-
+	//carrega texturas
     if (!texturaFundoCarregamento.loadFromFile("imagens/fundoCarregamento.jpg")) {
-        std::cerr << "Erro ao abrir a imagem de fundo." << std::endl;
+        std::cerr << "Erro ao abrir a imagem de fundo\n";
     }
     fundoCarregamento.setTexture(texturaFundoCarregamento);
 
-    if (!icon.loadFromFile("imagens/donkeyKong-icon.png")) {
-        std::cerr << "Erro ao abrir o ícone." << std::endl;
+    if(!texturaBotaoPlay[0].loadFromFile("imagens/botaoJogar.png") ||
+        !texturaBotaoPlay[1].loadFromFile("imagens/botaoJogarHover.png")){
+        std::cerr << "Erro ao carregar texturas de botao Play\n";
     }
 
-    if (!texturaBotaoPlay[0].loadFromFile("imagens/botaoJogar.png") ||
-        !texturaBotaoPlay[1].loadFromFile("imagens/botaoJogarHover.png")) {
-        std::cerr << "Erro ao carregar texturas de botão Play." << std::endl;
+    if(!texturaBotaoCredito[0].loadFromFile("imagens/botaoCreditos.png") ||
+        !texturaBotaoCredito[1].loadFromFile("imagens/botaoCreditosHover.png")){
+        std::cerr << "Erro ao carregar texturas de botao Creditos\n";
     }
 
-    if (!texturaBotaoCredito[0].loadFromFile("imagens/botaoCreditos.png") ||
-        !texturaBotaoCredito[1].loadFromFile("imagens/botaoCreditosHover.png")) {
-        std::cerr << "Erro ao carregar texturas de botão Créditos." << std::endl;
+
+    //carrega imagem icone
+    if(!icon.loadFromFile("imagens/donkeyKong-icon.png")){
+		std::cerr << "Erro ao abrir a imagem do icone\n";
+	}
+
+
+    //carrega musica de tela inicial
+    if(!musicaInicio.openFromFile("audios/comeco.flac")){
+        std::cerr << "Erro ao carregar som de inicio\n";
     }
 
-    if (!somInicioBuffer.loadFromFile("audios/telaInicio.wav")) {
-        std::cerr << "Erro ao carregar som de início." << std::endl;
-    }
 
-    carregamento = new Mapa(sf::VideoMode(texturaFundoCarregamento.getSize().x, texturaFundoCarregamento.getSize().y), fundoCarregamento);
-    carregamento->getWindow().setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    //cria mapa de tela inicial
+    mapaCarregamento = new Mapa(sf::VideoMode(texturaFundoCarregamento.getSize().x, texturaFundoCarregamento.getSize().y), fundoCarregamento);
+    mapaCarregamento->getWindow().setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
-    somInicio.setBuffer(somInicioBuffer);
-    somInicio.setLoop(true);
-    somInicio.play();
 
+    //carrega fontes e titulos
     fonteDonkeyKongTitulo.loadFromFile("fontes/Jumpman.ttf");
     fonteTituloRemake.loadFromFile("fontes/fonte1.TTF");
     tituloDonkeyKong.setFont(fonteDonkeyKongTitulo);
@@ -58,55 +52,82 @@ IntroducaoGame::IntroducaoGame(){
     tituloRemake.setCharacterSize(60);
     tituloRemake.setPosition(230, 200);
 
-    sf::IntRect rect(0, 0, 300, 120);
-    sf::Vector2f escala(1.0f, 1.0f);
-    botaoPlay = Entidade(texturaBotaoPlay[0], 400, 400, rect, escala);
-    botaoCredito = Entidade(texturaBotaoCredito[0], 400, 550, rect, escala);
 
-    while (carregamento->getWindow().isOpen()) {
-        while (carregamento->getWindow().pollEvent(event)) {
+    //cria botoes
+    botaoPlay = Entidade(texturaBotaoPlay[0], 400, 400, sf::IntRect(0, 0, 300, 120), sf::Vector2f(1.0f, 1.0f));
+    botaoCredito = Entidade(texturaBotaoCredito[0], 400, 550, sf::IntRect(0, 0, 300, 120), sf::Vector2f(1.0f, 1.0f));
+
+
+    //loop principal
+    while (mapaCarregamento->getWindow().isOpen()) {
+
+    	//loop de eventos
+        while (mapaCarregamento->getWindow().pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
-                carregamento->getWindow().close();
+                mapaCarregamento->getWindow().close();
             }
         }
 
-        sf::Vector2i mousePos = sf::Mouse::getPosition(carregamento->getWindow());
-        carregamento->setCordenadas(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 
-        if (botaoPlay.getSprite().getGlobalBounds().contains(carregamento->getCordenadas())) {
+        //atualiza mundo
+
+        //pega a posicao do mouse e passa como coordenadas para o mapa
+        sf::Vector2i mousePos = sf::Mouse::getPosition(mapaCarregamento->getWindow());
+        mapaCarregamento->setCordenadas(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+
+		//se o mouse passar por cima dos botoes aparecera o o botao hover, senao aparecera o botao normal
+        if (botaoPlay.getSprite().getGlobalBounds().contains(mapaCarregamento->getCordenadas())) {
             botaoPlay.setTexturaSprite(texturaBotaoPlay[1]);
         } else {
             botaoPlay.setTexturaSprite(texturaBotaoPlay[0]);
         }
-        if (botaoCredito.getSprite().getGlobalBounds().contains(carregamento->getCordenadas())) {
+        if (botaoCredito.getSprite().getGlobalBounds().contains(mapaCarregamento->getCordenadas())) {
             botaoCredito.setTexturaSprite(texturaBotaoCredito[1]);
         } else {
             botaoCredito.setTexturaSprite(texturaBotaoCredito[0]);
         }
 
+		//a classe Jogo ou Credito sera criada se houver click e se o mouse estiver em contato com os botoes
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            if (botaoPlay.getSprite().getGlobalBounds().contains(carregamento->getCordenadas())) {
-                IniciarJogo();
+            if (botaoPlay.getSprite().getGlobalBounds().contains(mapaCarregamento->getCordenadas())) {
+                iniciarJogo();
             }
-            else if (botaoCredito.getSprite().getGlobalBounds().contains(carregamento->getCordenadas())) {
+            else if (botaoCredito.getSprite().getGlobalBounds().contains(mapaCarregamento->getCordenadas())) {
                 mostraCreditos();
             }
         }
 
-        carregamento->getWindow().clear();
-        carregamento->getWindow().draw(fundoCarregamento);
-        carregamento->getWindow().draw(tituloDonkeyKong);
-        carregamento->getWindow().draw(tituloRemake);
-        carregamento->getWindow().draw(botaoPlay.getSprite());
-        carregamento->getWindow().draw(botaoCredito.getSprite());
-        carregamento->getWindow().display();
+        if(musicaInicio.getStatus() != sf::Sound::Playing){
+        	musicaInicio.play();
+        }
+
+
+        //desenha mundo
+
+        mapaCarregamento->getWindow().clear();
+
+        mapaCarregamento->getWindow().draw(fundoCarregamento);
+        mapaCarregamento->getWindow().draw(tituloDonkeyKong);
+        mapaCarregamento->getWindow().draw(tituloRemake);
+        mapaCarregamento->getWindow().draw(botaoPlay.getSprite());
+        mapaCarregamento->getWindow().draw(botaoCredito.getSprite());
+
+        mapaCarregamento->getWindow().display();
     }
 }
 
 IntroducaoGame::~IntroducaoGame() {
+    std::cerr << "Tela de Introducao Destruida\n";
+}
 
-	somInicio.stop();
-	somPlay.stop();
-    std::cerr << "Tela de Introdução Destruída";
+void IntroducaoGame::iniciarJogo(){
+    if(musicaInicio.getStatus() == sf::Sound::Playing){
+    	musicaInicio.stop();
+    }
+	delete mapaCarregamento;
+	new Jogo();
+}
 
+void IntroducaoGame::mostraCreditos(){
+	new Credito();
 }

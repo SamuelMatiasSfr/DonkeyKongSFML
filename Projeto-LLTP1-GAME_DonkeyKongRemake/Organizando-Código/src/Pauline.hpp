@@ -5,11 +5,14 @@
 
 class Pauline : public Personagem{
 
+private:
+	std::vector<sf::Texture>texturas;
+
 public:
 	Pauline(sf::Texture &textura, float posX, float posY);
 	~Pauline();
 
-	void mover(); //fun��o herdada de personagem.hpp e implementada em pauline.cpp
+	void mover();
 
 };
 

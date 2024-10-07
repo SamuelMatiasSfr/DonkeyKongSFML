@@ -1,14 +1,9 @@
 #ifndef JOGO_HPP_
 #define JOGO_HPP_
 
-#include "Mapa.hpp"
-#include "Colisoes.hpp"
-#include "Mario.hpp"
-#include "Barril.hpp"
-#include "Kong.hpp"
+#include "Colisoes.hpp" //Colisoes.hpp importa Mario.hpp, Barril.hpp, Plataforma.hpp e Escada.hpp
+#include "Kong.hpp" //Kong.hpp importa Personagem.hpp e Personagem.hpp importa Mapa.hpp
 #include "Pauline.hpp"
-#include "Plataforma.hpp"
-#include "Escada.hpp"
 #include "GameOver.hpp"
 
 class Jogo {
@@ -19,7 +14,7 @@ private:
 	sf::Sound somMorte, somGet, somEscudo;
 	sf::Texture texturaFundoJogo, texturaMarioLeft, texturaMarioDireita, texturaMarioSubindo, texturaMarioParado, texturaEscudoEsquerda,
 	texturaEscudoDireita, texturaBarril, texturaKong, texturaEscada, texturaPlataforma, texturaPaulineDireita,
-	texturaPaulineEsquerda, texturaPaulineCoracao, texturaEscudo, texturaCoracao, texturaCoracaoApagado;
+	texturaPaulineCoracao, texturaEscudo, texturaCoracao, texturaCoracaoApagado;
 	sf::Sprite fundoJogo;
 	std::vector<sf::Sprite>coracoes;
 	sf::Image icon;
@@ -47,30 +42,34 @@ public:
 
 	void carregarAudios();
 	void carregartexturas();
+
 	void gerarPlataformas();
 	void gerarEscadas();
-
 	void criarPersonagens();
 	void criarVidas();
 	void criarMapa();
 
 	void desenharMapa();
+
 	void dificultarJogo();
 
 	void morteBarril(Barril &barril);
 	void morteMario();
 
+	void colidirBarrilMartelo(int auxiliar);
 	void colidirMarioEscudo();
 	void colidirComPlataformas();
 	void colidirComEscadas();
 	void colidirPersonagens();
 
 	void movimentarPersonagens();
-
-	void respawnarBarris();
 	void animarMario(int *auxiliar);
 
-	void animarPauline();
+	void respawnarBarris();
+
+	bool testarSom(sf::Sound &som);
+	bool testarMusica(sf::Music &som);
+
 	void fecharJanela();
 	void loopPrincipal();
 	void gameOver();

@@ -1,20 +1,22 @@
-/*
- * Credito.cpp
- *
- *  Created on: 3 de out. de 2024
- *      Author: mathe
- */
-
 #include "Credito.hpp"
 
 Credito::Credito() {
+	//carrega texturas e sprites
+	if(!texturaFundoCreditos.loadFromFile("imagens/fundoCreditos.png")){
+		 std::cerr << "Erro ao carregar a textura de fundo Creditos\n";
+	}
 
-	texturaFundoCreditos.loadFromFile("imagens/fundoCreditos.png");
-	texturaBonecoMatheus.loadFromFile("imagens/matheus.png");
-	texturaBonecoIgor.loadFromFile("imagens/igor.png");
-	texturaBonecoSamuel.loadFromFile("imagens/samuel.png");
-	fonteCreditos.loadFromFile("fontes/fonte1.ttf");
-	icon.loadFromFile("imagens/donkeyKong-icon.png");
+	if(!texturaBonecoMatheus.loadFromFile("imagens/matheus.png")){
+		 std::cerr << "Erro ao abrir a textura de Matheus\n";
+	}
+
+	if(!texturaBonecoIgor.loadFromFile("imagens/igor.png")){
+		 std::cerr << "Erro ao abrir a textura de Igor\n";
+	}
+
+	if(!texturaBonecoSamuel.loadFromFile("imagens/samuel.png")){
+		 std::cerr << "Erro ao abrir a textura de Samuel\n";
+	}
 
 	fundoCreditos.setTexture(texturaFundoCreditos);
 	bonecoMatheus.setTexture(texturaBonecoMatheus);
@@ -29,33 +31,42 @@ Credito::Credito() {
 	bonecoIgor.setScale(0.2, 0.2);
 	bonecoSamuel.setScale(0.2, 0.2);
 
-	textosCarregamentos.setFont(fonteCreditos);
-	textosCarregamentos.setFillColor(sf::Color::Magenta);
-	textosCarregamentos.setString("Devs:\n\t Matheus  Igor   Samuel");
-	textosCarregamentos.setScale(0.8, 0.8);
-	textosCarregamentos.setPosition(0, 40);
-	textosCarregamentos.setOutlineThickness(3);
-	textosCarregamentos.setOutlineColor(sf::Color::Blue);
+
+	//carrega fonte e imagem do icone
+	fonteCreditos.loadFromFile("fontes/fonte1.ttf");
+	icon.loadFromFile("imagens/donkeyKong-icon.png");
+
+	textosCreditos.setFont(fonteCreditos);
+	textosCreditos.setFillColor(sf::Color::Magenta);
+	textosCreditos.setString("Devs:\n\t Matheus  Igor   Samuel");
+	textosCreditos.setScale(0.8, 0.8);
+	textosCreditos.setPosition(0, 40);
+	textosCreditos.setOutlineThickness(3);
+	textosCreditos.setOutlineColor(sf::Color::Blue);
 
 
+	//cria mapa creditos
 	sf::VideoMode tamJam(texturaFundoCreditos.getSize().x, texturaFundoCreditos.getSize().y);
 
 	mapaCreditos = new Mapa(tamJam, fundoCreditos);
 	mapaCreditos->getWindow().setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
+
+	//loop principal
 	while(mapaCreditos->getWindow().isOpen()){
 
+		//loop de eventos
 		while (mapaCreditos->getWindow().pollEvent(evento)) {
 			if (evento.type == sf::Event::Closed) {
 				mapaCreditos->getWindow().close();
 			}
 		}
 
-
+		//desenha na tela
 		mapaCreditos->getWindow().clear();
 
 		mapaCreditos->getWindow().draw(fundoCreditos);
-		mapaCreditos->getWindow().draw(textosCarregamentos);
+		mapaCreditos->getWindow().draw(textosCreditos);
 		mapaCreditos->getWindow().draw(bonecoMatheus);
 		mapaCreditos->getWindow().draw(bonecoIgor);
 		mapaCreditos->getWindow().draw(bonecoSamuel);

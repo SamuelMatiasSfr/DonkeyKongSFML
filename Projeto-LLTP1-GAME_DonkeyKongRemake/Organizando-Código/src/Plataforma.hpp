@@ -13,16 +13,12 @@ private:
 public:
 	Plataforma();
 
-	std::vector<sf::Sprite> &getSprites();
+	std::vector<sf::Sprite> &getPlataformas();
 	int getGrauInclinacao();
 
 	void definePlataforma(bool plataformaRegressa, int inclinacao, int quant, float posX, float posY);
     void draw(sf::RenderWindow &window);
 
-    void carregaTextura();
-
 };
-
-
 
 #endif /* PLATAFORMA_HPP_ */

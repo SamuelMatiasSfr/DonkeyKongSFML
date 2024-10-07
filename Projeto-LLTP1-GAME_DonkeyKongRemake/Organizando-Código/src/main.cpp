@@ -9,8 +9,7 @@ int main() {
 	try {
 		IntroducaoGame introducao;
 	} catch (const std::bad_alloc &e) {
-		std::cerr << "Erro de alocação de memória: " << e.what() << std::endl;
+		std::cerr << "Erro de alocacao de memoria: " << e.what() << std::endl;
 	}
     return 0;
 }
-

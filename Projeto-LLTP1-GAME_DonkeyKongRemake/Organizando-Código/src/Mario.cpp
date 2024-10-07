@@ -1,7 +1,7 @@
 #include "Mario.hpp"
 
 Mario::Mario(sf::Texture &textura, float posX, float posY)
-:Personagem(textura,posX, posY, sf::IntRect(0, 0, 16, 16), sf::Vector2f(3.0f, 3.5f), 0, 0){
+:Personagem(textura, posX, posY, sf::IntRect(0, 0, 16, 16), sf::Vector2f(3.0f, 3.5f), 0, 0){
 	vidas = 3;
 	ganhouJogo = false;
 	apertouX = false;
@@ -13,13 +13,13 @@ Mario::Mario(sf::Texture &textura, float posX, float posY)
 	noAr = false;
 
 	//carrega os sons de andar e pular do m�rio
-	if (!bufferAndar.loadFromFile("audios/andar_.wav")) {
+	if(!bufferAndar.loadFromFile("audios/andar_.wav")){
 		std::cerr << "Erro ao carregar o arquivo de som!\n";
 	}
 	somAndar.setBuffer(bufferAndar);
 	somAndar.setVolume(15);
 
-	if (!bufferPular.loadFromFile("audios/pulo.wav")) {
+	if(!bufferPular.loadFromFile("audios/pulo.wav")){
 		std::cerr << "Erro ao carregar o arquivo de som!\n";
 	}
 	somPular.setBuffer(bufferPular);
@@ -89,7 +89,7 @@ void Mario::setNoAr(bool estaNoAr){
 	noAr = estaNoAr;
 }
 
-//verifica se o som est� tocando ou n�o
+//verifica se o som esta tocando ou nao
 bool Mario::testarSom(sf::Sound som){
 	if(som.getStatus() != sf::Sound::Playing){
 		return true;
@@ -154,21 +154,25 @@ void Mario::pular(){
 	}
 }
 
-//verifica os limites do mapa, para o m�rio n�o sair da tela
+//verifica os limites do mapa, para o mario nao sair da tela
 void Mario::permitirMovimento(Mapa &map){
-	if(corpo.getPosition().x >= (map.getTamanhoJanela().width - 1) ){
+	if(corpo.getPosition().x >= (map.getTamanhoJanela().width - 1)){
 		podeAndar = false;
-		setPosicao(corpo.getPosition().x - 2,corpo.getPosition().y );
-	}else if(corpo.getPosition().x <= (1) ){
+		setPosicao(corpo.getPosition().x - 2,corpo.getPosition().y);
+	}
+	else if(corpo.getPosition().x <= 1){
 		podeAndar = false;
-		setPosicao(corpo.getPosition().x + 2,corpo.getPosition().y );
-	}else if(corpo.getPosition().y >= (map.getTamanhoJanela().height -1) ){
+		setPosicao(corpo.getPosition().x + 2,corpo.getPosition().y);
+	}
+	else if(corpo.getPosition().y >= (map.getTamanhoJanela().height - 1) ){
 		podeAndar = false;
-		setPosicao(corpo.getPosition().x, map.getTamanhoJanela().height - 20 );
-	}else if(corpo.getPosition().y <= (1) ){
+		setPosicao(corpo.getPosition().x, map.getTamanhoJanela().height - 20);
+	}
+	else if(corpo.getPosition().y <= 1){
 		podeAndar = false;
 		setPosicao(corpo.getPosition().x, corpo.getPosition().y + 2);
-	}else{
+	}
+	else{
 		podeAndar = true;
 	}
 }

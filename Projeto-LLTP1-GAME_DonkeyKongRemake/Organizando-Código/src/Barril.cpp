@@ -1,13 +1,13 @@
 #include "Barril.hpp"
 
 Barril::Barril(sf::Texture &textura)
-:Personagem(textura, 20 , 20, sf::IntRect(0, 0, 12, 10), sf::Vector2f(2.5f, 3.0f), 4, 0){
+:Personagem(textura, 20 , 20, sf::IntRect(0, 0, 12, 10), sf::Vector2f(2.5f, 3.0f), 4, 0) {
 
 }
 
 Barril::Barril(){}
 
-Barril::~Barril() {}
+Barril::~Barril(){}
 
 void Barril::respawAleatotio(sf::RenderWindow &window){
 	int windowLargura = static_cast<int>(window.getSize().x);
@@ -30,14 +30,6 @@ void Barril::determinarMovimento(){
 	}
 }
 
-
-void Barril::mover(){
-	animarBarril();
-	posicaoX = posicaoX + velocidadeX;
-	posicaoY = posicaoY + velocidadeY;
-	corpo.setPosition(posicaoX, posicaoY);
-}
-
 //rotaciona o barril, de forma que o barril parece estar girando
 void Barril::animarBarril() {
     float tempoRotacao = 0.5f;
@@ -47,4 +39,12 @@ void Barril::animarBarril() {
         clock.restart();
     }
 }
+
+void Barril::mover(){
+	animarBarril();
+	posicaoX = posicaoX + velocidadeX;
+	posicaoY = posicaoY + velocidadeY;
+	corpo.setPosition(posicaoX, posicaoY);
+}
+
 
