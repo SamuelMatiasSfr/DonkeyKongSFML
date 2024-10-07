@@ -2,6 +2,7 @@
 #define ENTIDADE_HPP_
 
 #include <SFML/Graphics.hpp>
+#include <vector>
 #include <iostream>
 
 class Entidade {

@@ -1,3 +1,10 @@
+/*
+ * Credito.hpp
+ *
+ *  Created on: 3 de out. de 2024
+ *      Author: mathe
+ */
+
 #ifndef CREDITO_HPP_
 #define CREDITO_HPP_
 
@@ -5,8 +12,9 @@
 
 class Credito {
 
-private:
-	sf::Text textosCreditos;
+protected:
+
+	sf::Text textosCarregamentos;
 	sf::Font fonteCreditos;
 	sf::Texture texturaBonecoMatheus, texturaBonecoSamuel, texturaBonecoIgor, texturaFundoCreditos;
 	sf::Sprite bonecoMatheus, bonecoSamuel, bonecoIgor, fundoCreditos;
@@ -17,7 +25,6 @@ private:
 public:
 	Credito();
 	~Credito();
-
 };
 
 #endif /* CREDITO_HPP_ */

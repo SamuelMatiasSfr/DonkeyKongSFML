@@ -1,10 +1,9 @@
 #ifndef MAPA_HPP_
 #define MAPA_HPP_
-
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-class Mapa {
+class Mapa{
 
 private:
 	sf::VideoMode tamanhoJanela;

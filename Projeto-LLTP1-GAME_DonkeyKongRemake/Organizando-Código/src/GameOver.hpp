@@ -1,8 +1,9 @@
 #ifndef GAMEOVER_HPP_
 #define GAMEOVER_HPP_
 
+#include "Mapa.hpp"
 #include "Entidade.hpp"
-#include "Jogo.hpp"
+#include "Fase1.hpp"
 #include "Credito.hpp"
 
 class GameOver {

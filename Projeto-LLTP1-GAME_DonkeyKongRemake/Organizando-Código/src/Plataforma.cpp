@@ -5,7 +5,17 @@ Plataforma::Plataforma(){ //chama Entidade()
 	quantidadePlataformas = 0;
 }
 
-std::vector<sf::Sprite> &Plataforma::getPlataformas(){
+void Plataforma::carregaTextura(){
+
+	if(!textura.loadFromFile("imagens/plataforma.png")){
+		std::cerr << "Erro ao carregar textura da plataforma";
+	}
+
+	corpo.setTexture(textura);
+	corpo.setScale(1.2, 1.2);
+}
+
+std::vector<sf::Sprite> &Plataforma::getSprites() {
 	return armazenadorPlataformas;
 }
 
@@ -13,27 +23,22 @@ int Plataforma::getGrauInclinacao(){
 	return grauInclinacao;
 }
 
-void Plataforma::definePlataforma(bool plataformaRegressa, int inclinacao, int quant, float posX, float posY){
+void Plataforma::definePlataforma(bool plataformaRegressa, int inclinacao, int quant, float posX, float posY) {
 	grauInclinacao = inclinacao;
 	quantidadePlataformas = quant;
 	posicaoX = posX;
 	posicaoY = posY;
-
-	/*
-	 * Variavel auxiliar para controlar a direção em que as plataformas serão geradas.
-	 * Se "plataformaRegressa" for verdadeiro, o valor sera -1, senao, sera 1.
-	 */
 	int aux = (plataformaRegressa) ? -1 : 1;
 
-	for(int i = 0; i < quantidadePlataformas; ++i){
-		sf::Sprite novaPataforma = corpo;
-		novaPataforma.setPosition(posX + corpo.getGlobalBounds().width * aux * i, posY + grauInclinacao * i);
-		armazenadorPlataformas.push_back(novaPataforma);
+	for (int i = 0; i < quantidadePlataformas; ++i) {
+		sf::Sprite plataformaAtual = corpo;
+		plataformaAtual.setPosition(posX + corpo.getGlobalBounds().width * aux * i, posY + grauInclinacao * i);
+		armazenadorPlataformas.push_back(plataformaAtual);
 	}
 }
 
-void Plataforma::draw(sf::RenderWindow &window){
-	for (auto &estrutura : armazenadorPlataformas ){
+void Plataforma::draw(sf::RenderWindow &window) {
+	for (auto &estrutura : armazenadorPlataformas ) {
 		window.draw(estrutura);
 	}
 }

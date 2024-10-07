@@ -1,6 +1,6 @@
 #include "Personagem.hpp"
 
-Personagem::Personagem(){ //chama Entidade()
+Personagem::Personagem(){
 	velocidadeX = 0;
 	velocidadeY = 0;
 	podeAndar = true;
@@ -34,4 +34,9 @@ void Personagem::sofrerGravidade(){
 	velocidadeY += gravidade * deltaTime;
 	setPosicao(getPosicao().x, getPosicao().y + velocidadeY);
 }
+
+void Personagem::mover(){
+	setPosicao(getPosicao().x + velocidadeX, getPosicao().y + velocidadeY);
+}
+
 

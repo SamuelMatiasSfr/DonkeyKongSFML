@@ -1,20 +1,26 @@
 #ifndef INTRODUCAOGAME_HPP
 #define INTRODUCAOGAME_HPP
 
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+#include <iostream>
+#include "Mapa.hpp"
 #include "Entidade.hpp"
-#include "Jogo.hpp"
 #include "Credito.hpp"
+#include "Fase1.hpp"
 
 class IntroducaoGame {
 
-private:
     sf::Texture texturaFundoCarregamento;
     sf::Texture texturaBotaoPlay[2];
     sf::Texture texturaBotaoCredito[2];
 
     sf::Sprite fundoCarregamento;
 
-    sf::Music musicaInicio;
+    sf::SoundBuffer somInicioBuffer;
+    sf::SoundBuffer somPlayBuffer;
+    sf::Sound somInicio;
+    sf::Sound somPlay;
 
     sf::Image icon;
 
@@ -26,16 +32,14 @@ private:
     Entidade botaoPlay;
     Entidade botaoCredito;
 
-    Mapa *mapaCarregamento;
+    Mapa *carregamento;
     sf::Event event;
 
 public:
     IntroducaoGame();
     ~IntroducaoGame();
-
-    void iniciarJogo();
+    void IniciarJogo();
     void mostraCreditos();
 
 };
-
 #endif // INTRODUCAOGAME_HPP

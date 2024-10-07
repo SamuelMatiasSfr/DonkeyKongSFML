@@ -5,18 +5,17 @@ Entidade::Entidade(){
 	posicaoY = 0;
 }
 
-Entidade::Entidade(sf::Texture &textura, float posX, float posY, sf::IntRect retangulo, sf::Vector2f escala){
+Entidade::Entidade(sf::Texture &texture, float posX, float posY, sf::IntRect retangulo, sf::Vector2f escala){
 	posicaoX = posX;
 	posicaoY = posY;
-	this->textura = textura;
-    corpo.setTexture(textura);
+    corpo.setTexture(texture);
     corpo.setTextureRect(retangulo);
     corpo.setScale(escala);
     corpo.setPosition(posicaoX, posicaoY);
     corpo.setOrigin(corpo.getLocalBounds().width / 2, corpo.getLocalBounds().height / 2);
 }
 
-Entidade::~Entidade(){
+Entidade::~Entidade() {
     std::cerr << "Entidade excluida\n";
 }
 
@@ -39,12 +38,10 @@ void Entidade::setPosicao(float posX, float posY){
 }
 
 void Entidade::setTexturaSprite(sf::Texture &textura, sf::IntRect &retangulo){
-	this->textura = textura;
 	corpo.setTexture(textura);
 	corpo.setTextureRect(retangulo);
 }
 
 void Entidade::setTexturaSprite(sf::Texture &textura){
-	this->textura = textura;
 	corpo.setTexture(textura);
 }
