@@ -2,7 +2,7 @@
 #define GAMEOVER_HPP_
 
 #include "Entidade.hpp"
-#include "Jogo.hpp"
+#include "Fase1.hpp"
 #include "Credito.hpp"
 
 class GameOver {
