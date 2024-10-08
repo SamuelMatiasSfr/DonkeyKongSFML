@@ -104,6 +104,9 @@ void JogarDeNovo::identificaClick(){
 			mapaPergunta->getWindow().close();
 			Fase1 fase1;
 		} else if (botaoProximaFase->getSprite().getGlobalBounds().contains(mapaPergunta->getCordenadas())) {
+			if (musicaGanhou.getStatus() == sf::Sound::Playing) {
+				musicaGanhou.pause();
+			}
 			mapaPergunta->getWindow().close();
 			Fase2 fase2;
 		}
