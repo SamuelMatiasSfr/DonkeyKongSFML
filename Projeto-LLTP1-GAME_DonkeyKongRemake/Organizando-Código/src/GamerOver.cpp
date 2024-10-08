@@ -126,7 +126,7 @@ void GameOver::reiniciarJogo(){
     	musicaGameOver.stop();
     }
 	delete mapaGameOver;
-	new Jogo();
+	new Fase1();
 }
 
 GameOver::~GameOver(){
