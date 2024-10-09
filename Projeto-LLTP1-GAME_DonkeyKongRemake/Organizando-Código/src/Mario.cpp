@@ -90,7 +90,7 @@ void Mario::setNoAr(bool estaNoAr){
 }
 
 //verifica se o som est� tocando ou n�o
-bool Mario::testarSom(sf::Sound som){
+bool Mario::testarSom(sf::Sound &som){
 	if(som.getStatus() != sf::Sound::Playing){
 		return true;
 	}else return false;
@@ -119,7 +119,6 @@ void Mario::mover(){
 		velocidadeY = -1;
 		posicaoY += velocidadeY;
 		setPosicao(posicaoX, posicaoY);
-		somAndar.play();
 
 		if(testarSom(somAndar)){
 			somAndar.play();
@@ -129,7 +128,6 @@ void Mario::mover(){
 		velocidadeY = 1;
 		posicaoY += velocidadeY;
 		setPosicao(posicaoX, posicaoY);
-		somAndar.play();
 
 		if(testarSom(somAndar)){
 			somAndar.play();

@@ -46,7 +46,7 @@ public:
 	size_t getPegaCoins();
 	void setPegaCoins(int coinsColetadas);
 
-	bool testarSom(sf::Sound som);
+	bool testarSom(sf::Sound &som);
 	void mover(); //fun��o herdada de personagem.hpp e implementada em mario.cpp
 	void pular();
 	void permitirMovimento(Mapa &map);

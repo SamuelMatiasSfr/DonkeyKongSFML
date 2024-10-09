@@ -413,7 +413,7 @@ void Fase1::fecharJanela(){
 	while (mapaJogo->getWindow().pollEvent(evento)) {
 		if (evento.type == sf::Event::Closed) {
 			mapaJogo->getWindow().close();
-			Fase1::~Fase1();
+			//Fase1::~Fase1();
 		}
 	}
 }
@@ -453,7 +453,7 @@ void Fase1::loopPrincipal(){
 void Fase1::gameOver(){
 	if(mario->getVidas() == 0){
 		musicaFundo.pause();
-		mapaJogo->~Mapa();
+		mapaJogo->getWindow().close();
 		GameOver gameOver;
 	}
 }
@@ -491,7 +491,8 @@ void Fase1::perguntaProximaFase(){
 
 	if(mario->getGanhou()){
 		if(clockGanhou.getElapsedTime().asSeconds() >= 5){
-			Fase1::~Fase1();
+			mapaJogo->getWindow().close();
+			//Fase1::~Fase1();
 			JogarDeNovo pergunta;
 		}
 	}

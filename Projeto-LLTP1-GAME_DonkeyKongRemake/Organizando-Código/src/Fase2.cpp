@@ -217,7 +217,7 @@ void Fase2::criarPersonagens(){
 }
 
 void Fase2::criarVidas(){
-	for(int i=0; i<3; i++){
+	for(int i = 0; i < 3; i++){
 		sf::Sprite coracao;
 		coracao.setTexture(texturaCoracao);
 		coracao.setScale(0.02f, 0.02f);
@@ -460,7 +460,7 @@ void Fase2::fecharJanela(){
 	while (mapaJogo->getWindow().pollEvent(evento)) {
 		if (evento.type == sf::Event::Closed) {
 			mapaJogo->getWindow().close();
-			Fase2::~Fase2();
+			//Fase2::~Fase2();
 		}
 	}
 }
@@ -501,7 +501,7 @@ void Fase2::loopPrincipal(){
 void Fase2::gameOver(){
 	if(mario->getVidas() == 0){
 		musicaFundo.pause();
-		mapaJogo->~Mapa();
+		mapaJogo->getWindow().close();
 		GameOver gameOver;
 	}
 }
@@ -539,7 +539,8 @@ void Fase2::perguntaProximaFase(){//ao ganhar e tempo ser maior que 5 destroi a 
 
 	if(mario->getGanhou()){
 		if(clockGanhou.getElapsedTime().asSeconds() >= 5){
-			Fase2::~Fase2();
+			mapaJogo->getWindow().close();
+			//Fase2::~Fase2();
 			IntroducaoGame iniciaNovamente;
 		}
 	}

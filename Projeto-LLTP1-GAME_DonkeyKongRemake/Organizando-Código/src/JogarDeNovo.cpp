@@ -17,7 +17,8 @@ JogarDeNovo::JogarDeNovo() {
 	criaBotoes();
 	// Loop principal
 	loopPrincipal();
-	JogarDeNovo::~JogarDeNovo();
+	//JogarDeNovo::~JogarDeNovo();
+
 }
 
 void JogarDeNovo::desenhaMapa(){
