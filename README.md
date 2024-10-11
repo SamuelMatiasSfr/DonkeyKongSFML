@@ -1,4 +1,4 @@
-# Projeto Remake do Jogo Donkey Kong (LTP1 - 1º Trabalho Prático)
+# 🎮Remake do Jogo Donkey Kong (LTP1 - 1º Trabalho Prático)🎮
 
 Bem-vindo ao repositório do Remake do Jogo Donkey Kong! 
 Este é um projeto desenvolvido como parte do 1º Trabalho Prático de LTP1 no curso de Informática do CEFET-MG. 
@@ -10,7 +10,7 @@ O jogo utiliza a biblioteca SFML para manipulação de gráficos, som e animaç�
 - C Compiler: Um compilador compatível com C++11 ou superior.
 - Eclipse IDE (ou outra IDE de sua preferência).
 
-# Configuração
+## ⚙️Configuração⚙️
 
 Para rodar este projeto, será necessário clonar ou baixar o repositório e configurá-lo em um ambiente com SFML. 
 
@@ -34,3 +34,25 @@ Baixe e extraia o arquivo zip, copie os arquivos para seu projeto
      - Não se esqueça de configurar as variaveis de ambiente se necessario   `SFML/bin;`.
       
 4. Execute o Jogo
+
+##
+
+<h1 align="center" style="color: red;">🕹️Como Jogar?🕹️</h1>
+
+## 🎯 Objetivo
+Resgate a princesa Pauline! Antes disso, colete todas as moedas disponíveis no nível.
+
+## 🎮 Controles
+- **⬆️ Cima**: Subir escadas.
+- **⬇️ Baixo**: Descer escadas.
+- **⬅️ Esquerda**: Mover-se para a esquerda.
+- **➡️ Direita**: Mover-se para a direita.
+- **⏺ Espaço**: Pular.
+
+## 🛠️ Martelo
+- Ao pegar o martelo, você tem **8 segundos** para utilizá-lo.
+- **Pressione `X`** para usá-lo.
+- Usar o martelo redireciona o barril para outra posição, mas ele permanece visível na tela.
+
+## 💡 Dicas
+- É possível **pular sobre os barris** para evitar colisões.
